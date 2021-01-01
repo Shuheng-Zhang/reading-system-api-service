@@ -21,7 +21,9 @@ public class AccountUserServiceImpl extends ServiceImpl<AccountUserMapper, Accou
     @Override
     public void checkAccountExist(String username) {
         Integer res = accountUserMapper.checkAccountUserExist(username);
-        if (res == null) {
+
+        // 返回值为 0，说明帐号不存在
+        if (res == 0) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_OBJ_NOT_FOUND);
         }
     }

@@ -16,6 +16,6 @@
   </sql>
 
   <select id="checkAccountUserExist" resultType="java.lang.Integer">
-    SELECT 1 FROM account_user WHERE user_name = #{username} limit 1
+    SELECT COUNT(id) as res FROM account_user WHERE id = #{accountId} limit 1
   </select>
 </mapper>

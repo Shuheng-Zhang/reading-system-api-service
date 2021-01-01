@@ -10,8 +10,8 @@ public interface AccountUserMapper extends BaseMapper<AccountUser> {
 
     /**
      * 检查用户帐号是否存在
-     * @param username 用户名
+     * @param accountId 用户帐号ID
      * @return
      */
-    Integer checkAccountUserExist(String username);
+    Integer checkAccountUserExist(String accountId);
 }
