@@ -5,7 +5,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
  * @author heng
  */
-public interface AccountUserService extends IService<AccountUser>{
+public interface AccountUserService extends IService<AccountUser> {
 
 
+    /**
+     * 检查用户帐号是否存在
+     * @param username 用户名
+     */
+    void checkAccountExist(String username);
 }

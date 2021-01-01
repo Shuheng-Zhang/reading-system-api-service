@@ -14,4 +14,8 @@
     <!--@mbg.generated-->
     id, user_name, user_certification, user_type, user_security_key
   </sql>
+
+  <select id="checkAccountUserExist" resultType="java.lang.Integer">
+    SELECT 1 FROM account_user WHERE user_name = #{username} limit 1
+  </select>
 </mapper>
