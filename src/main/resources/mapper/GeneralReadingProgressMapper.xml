@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.reading.apiservice.mapper.GeneralReadingProgressMapper">
+  <resultMap id="BaseResultMap" type="com.heng.reading.apiservice.entity.GeneralReadingProgress">
+    <!--@mbg.generated-->
+    <!--@Table general_reading_progress-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="progress_title" jdbcType="VARCHAR" property="progressTitle" />
+    <result column="progress_location_index" jdbcType="LONGVARCHAR" property="progressLocationIndex" />
+    <result column="progress_location_content" jdbcType="LONGVARCHAR" property="progressLocationContent" />
+    <result column="progress_created_time" jdbcType="VARCHAR" property="progressCreatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, progress_title, progress_location_index, progress_location_content, progress_created_time
+  </sql>
+</mapper>

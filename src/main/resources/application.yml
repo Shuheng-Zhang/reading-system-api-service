@@ -1,0 +1,43 @@
+#################################################################
+##### 应用全局配置                                          ######
+#################################################################
+server:
+  servlet:
+    # 使用 UTF-8 字符集编码
+    encoding:
+      force: true
+      enabled: true
+      charset: UTF-8
+
+
+# Mybatis-Plus ORM 映射配置
+mybatis-plus:
+  configuration:
+    auto-mapping-behavior: full
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*Mapper.xml
+
+
+# 日志级别
+logging:
+  level:
+    com.heng.epub.server.mapper: debug
+
+
+spring:
+  # 序列化-日期格式及时区
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+  servlet:
+    # 文件上传-容量限制
+    multipart:
+      enabled: true
+      max-file-size: 30MB
+      max-request-size: 128MB
+  # 加载附加配置
+  profiles:
+    active: dev

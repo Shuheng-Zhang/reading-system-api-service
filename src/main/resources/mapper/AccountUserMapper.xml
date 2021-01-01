@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.reading.apiservice.mapper.AccountUserMapper">
+  <resultMap id="BaseResultMap" type="com.heng.reading.apiservice.entity.AccountUser">
+    <!--@mbg.generated-->
+    <!--@Table account_user-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_certification" jdbcType="LONGVARCHAR" property="userCertification" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="user_security_key" jdbcType="LONGVARCHAR" property="userSecurityKey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, user_name, user_certification, user_type, user_security_key
+  </sql>
+</mapper>

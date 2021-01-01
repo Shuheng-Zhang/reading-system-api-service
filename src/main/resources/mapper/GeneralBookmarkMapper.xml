@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.reading.apiservice.mapper.GeneralBookmarkMapper">
+  <resultMap id="BaseResultMap" type="com.heng.reading.apiservice.entity.GeneralBookmark">
+    <!--@mbg.generated-->
+    <!--@Table general_bookmark-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="bookmark_title" jdbcType="VARCHAR" property="bookmarkTitle" />
+    <result column="bookmark_created_time" jdbcType="VARCHAR" property="bookmarkCreatedTime" />
+    <result column="bookmark_location_index" jdbcType="LONGVARCHAR" property="bookmarkLocationIndex" />
+    <result column="bookmark_location_content" jdbcType="LONGVARCHAR" property="bookmarkLocationContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, bookmark_title, bookmark_created_time, bookmark_location_index, bookmark_location_content
+  </sql>
+</mapper>

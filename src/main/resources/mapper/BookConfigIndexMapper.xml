@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.reading.apiservice.mapper.BookConfigIndexMapper">
+  <resultMap id="BaseResultMap" type="com.heng.reading.apiservice.entity.BookConfigIndex">
+    <!--@mbg.generated-->
+    <!--@Table book_config_index-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="book_id" jdbcType="VARCHAR" property="bookId" />
+    <result column="config_id" jdbcType="VARCHAR" property="configId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, book_id, config_id
+  </sql>
+</mapper>

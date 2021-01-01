@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heng.reading.apiservice.mapper.GeneralReadingConfigMapper">
+  <resultMap id="BaseResultMap" type="com.heng.reading.apiservice.entity.GeneralReadingConfig">
+    <!--@mbg.generated-->
+    <!--@Table general_reading_config-->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="config_font_family" jdbcType="VARCHAR" property="configFontFamily" />
+    <result column="config_font_size" jdbcType="VARCHAR" property="configFontSize" />
+    <result column="config_font_style" jdbcType="VARCHAR" property="configFontStyle" />
+    <result column="config_theme" jdbcType="VARCHAR" property="configTheme" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, config_font_family, config_font_size, config_font_style, config_theme
+  </sql>
+</mapper>
