@@ -40,7 +40,6 @@ public class EpubParseUtils {
         String bookTitle = epubMetadata.getFirstTitle();
 
         // 获取 作者列表
-//        List<String> authors = new ArrayList<>();
         StringBuilder authors = new StringBuilder();
         if (epubMetadata.getAuthors() != null) {
             for (Author author : epubMetadata.getAuthors()) {

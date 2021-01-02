@@ -38,9 +38,6 @@ public class ImporterServiceImpl implements ImporterService {
             if (!res) {
                 throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_FILE_NOT_SUPPORT);
             }
-            /*if (!mimeType.getContentType().equals(file.getContentType())) {
-                throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_FILE_NOT_SUPPORT);
-            }*/
         }
     }
 

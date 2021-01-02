@@ -95,7 +95,6 @@ public class ImporterController {
             book.setBookSize(StringUtil.storageUnitConvert(bookSize));
             book.setBookFileUrl(bookPath);
             book.setBookPushedTime(StringUtil.getCurrentTime());
-
             if (metadata != null) {
                 book.setBookTitle(metadata.get("title"));
                 book.setBookAuthors(metadata.get("authors"));
