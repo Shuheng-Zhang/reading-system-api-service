@@ -10,7 +10,8 @@ public interface AccountUserService extends IService<AccountUser> {
 
     /**
      * 检查用户帐号是否存在
-     * @param username 用户名
+     * @param accountId 用户帐号ID
+     * @exception com.heng.reading.apiservice.comms.exception.BusinessException 用户帐号不存在
      */
-    void checkAccountExist(String username);
+    void checkAccountExist(String accountId);
 }

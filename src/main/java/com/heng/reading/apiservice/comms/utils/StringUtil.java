@@ -1,6 +1,9 @@
 package com.heng.reading.apiservice.comms.utils;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 字符串工具类
@@ -11,6 +14,8 @@ public class StringUtil {
     final private static long BYTE = 1024;
     final private static long KB = 1048576;
     final private static long MB = 1073741824;
+
+    final private static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 检查字符串是否为空
@@ -41,12 +46,20 @@ public class StringUtil {
         if (value < BYTE) {
             fileSizeString = df.format((double) value) + "B";
         } else if (value < KB) {
-            fileSizeString = df.format((double) value / 1024) + "K";
+            fileSizeString = df.format((double) value / BYTE) + "K";
         } else if (value < MB) {
-            fileSizeString = df.format((double) value / 1048576) + "M";
+            fileSizeString = df.format((double) value / KB) + "M";
         } else {
-            fileSizeString = df.format((double) value / 1073741824) + "G";
+            fileSizeString = df.format((double) value / MB) + "G";
         }
         return fileSizeString;
+    }
+
+    /**
+     * 获取当前时间
+     * @return 返回当前时间（yyyy-MM-dd HH:mm:ss）
+     */
+    public static String getCurrentTime() {
+        return DATE_FORMAT.format(new Date());
     }
 }
