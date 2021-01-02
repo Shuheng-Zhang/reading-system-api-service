@@ -7,5 +7,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface GeneralReadingProgressService extends IService<GeneralReadingProgress>{
 
-
+    /**
+     * 删除当前电子书所有阅读进度
+     * @param bookId 电子书ID
+     */
+    void deleteReadingProgressesByBookId(String bookId);
 }

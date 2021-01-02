@@ -12,4 +12,12 @@
     <!--@mbg.generated-->
     id, account_id, book_id
   </sql>
+
+  <delete id="deleteIndexByBookId" parameterType="java.lang.String">
+    DELETE FROM account_book_index WHERE book_id = #{bookId}
+  </delete>
+
+  <delete id="deleteIndexByAccountId" parameterType="java.lang.String">
+    DELETE FROM account_book_index WHERE account_id = #{accountId}
+  </delete>
 </mapper>

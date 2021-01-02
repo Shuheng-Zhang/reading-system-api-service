@@ -12,4 +12,12 @@
     <!--@mbg.generated-->
     id, book_id, bookmark_id
   </sql>
+
+  <delete id="deleteByBookmarkId">
+    DELETE FROM book_bookmark_index WHERE bookmark_id = #{bookmarkId}
+  </delete>
+
+  <delete id="deleteByBookId">
+    DELETE FROM book_bookmark_index WHERE book_id = #{bookId}
+  </delete>
 </mapper>

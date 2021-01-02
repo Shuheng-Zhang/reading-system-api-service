@@ -14,4 +14,8 @@
     <!--@mbg.generated-->
     id, progress_title, progress_location_index, progress_location_content, progress_created_time
   </sql>
+
+  <delete id="deleteByBookId" parameterType="java.lang.String">
+    DELETE FROM general_reading_progress WHERE id IN (SELECT progress_id FROM book_progress_index WHERE book_id = #{bookId})
+  </delete>
 </mapper>

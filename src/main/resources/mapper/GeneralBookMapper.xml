@@ -18,4 +18,11 @@
     id, book_title, book_authors, book_description, book_cover_url, book_size, book_pushed_time, 
     book_file_url
   </sql>
+
+  <select id="queryBooksByAccountId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url
+    FROM general_book WHERE id in (
+        SELECT book_id FROM account_book_index WHERE account_id = #{accountId}
+    )
+  </select>
 </mapper>

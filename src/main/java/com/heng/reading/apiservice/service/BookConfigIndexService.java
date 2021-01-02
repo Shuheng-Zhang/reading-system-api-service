@@ -5,7 +5,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
  * @author heng
  */
-public interface BookConfigIndexService extends IService<BookConfigIndex>{
+public interface BookConfigIndexService extends IService<BookConfigIndex> {
+
+    /**
+     * 删除当前电子书关联的所有阅读配置索引
+     * @param bookId 电子书ID
+     */
+    void deleteByBookId(String bookId);
 
 
 }

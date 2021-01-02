@@ -12,4 +12,12 @@
     <!--@mbg.generated-->
     id, book_id, config_id
   </sql>
+
+  <delete id="deleteByConfigId" parameterType="java.lang.String">
+    DELETE FROM book_config_index WHERE config_id = #{configId}
+  </delete>
+
+  <delete id="deleteByBookId" parameterType="java.lang.String">
+    DELETE FROM book_config_index WHERE book_id = #{bookId}
+  </delete>
 </mapper>
