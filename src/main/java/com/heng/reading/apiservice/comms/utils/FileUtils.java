@@ -51,4 +51,15 @@ public class FileUtils {
         file.transferTo(dest);
 
     }
+
+    /**
+     * 删除指定路径文件
+     * @param filePath 文件路径
+     */
+    public static void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
 }
