@@ -23,4 +23,10 @@ public interface GeneralBookService extends IService<GeneralBook> {
      * @param bookId 电子书ID
      */
     void removeBookByBookId(String bookId);
+
+    /**
+     * 检查电子书信息是否存在
+     * @param bookId 电子书ID
+     */
+    void checkBookExisted(String bookId);
 }

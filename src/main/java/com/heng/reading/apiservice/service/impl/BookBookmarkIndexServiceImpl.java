@@ -23,4 +23,12 @@ public class BookBookmarkIndexServiceImpl extends ServiceImpl<BookBookmarkIndexM
         }
         this.baseMapper.deleteByBookId(bookId);
     }
+
+    @Override
+    public void deleteByBookmarkId(String bookmarkId) throws BusinessException {
+        if (StringUtil.isNullOrEmpty(bookmarkId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+        this.baseMapper.deleteByBookmarkId(bookmarkId);
+    }
 }

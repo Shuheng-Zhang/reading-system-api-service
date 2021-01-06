@@ -18,4 +18,11 @@ public interface GeneralBookMapper extends BaseMapper<GeneralBook> {
      * @return
      */
     IPage<GeneralBook> queryBooksByAccountId(String accountId, Page<GeneralBook> page);
+
+    /**
+     * 检查指定电子书信息是否存在
+     * @param bookId 电子书ID
+     * @return
+     */
+    Integer checkBookExistedByBookId(String bookId);
 }

@@ -56,6 +56,14 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
         }
     }
 
+    @Override
+    public void checkBookExisted(String bookId) throws BusinessException {
+        Integer res = this.baseMapper.checkBookExistedByBookId(bookId);
+        if (res == 0) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_OBJ_NOT_FOUND);
+        }
+    }
+
     private String bookResourcePath(String path) {
         if (StringUtil.isNullOrEmpty(path)) {
             return null;

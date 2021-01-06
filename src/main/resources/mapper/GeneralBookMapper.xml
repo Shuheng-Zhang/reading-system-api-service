@@ -25,4 +25,8 @@
         SELECT book_id FROM account_book_index WHERE account_id = #{accountId}
     )
   </select>
+
+  <select id="checkBookExistedByBookId" resultType="java.lang.Integer">
+    SELECT COUNT(id) as res FROM general_book WHERE id = #{bookId} limit 1
+  </select>
 </mapper>

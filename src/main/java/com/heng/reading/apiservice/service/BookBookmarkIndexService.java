@@ -13,5 +13,9 @@ public interface BookBookmarkIndexService extends IService<BookBookmarkIndex> {
      */
     void deleteByBookId(String bookId);
 
-
+    /**
+     * 删除当前书签关联的电子书索引
+     * @param bookmarkId 书签ID
+     */
+    void deleteByBookmarkId(String bookmarkId);
 }
