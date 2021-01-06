@@ -51,6 +51,7 @@ public class GeneralBookmarkController {
 
         String bookmarkId = UUIDUtil.uuid();
         bookmark.setId(bookmarkId);
+        bookmark.setBookmarkCreatedTime(StringUtil.getCurrentTime());
 
         // 创建电子书与书签索引
         BookBookmarkIndex bookBookmarkIndex = new BookBookmarkIndex();
