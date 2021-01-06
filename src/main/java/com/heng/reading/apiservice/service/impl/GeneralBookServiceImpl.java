@@ -64,6 +64,11 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
         }
     }
 
+    /**
+     * 构建完整的电子书文件地址
+     * @param path 电子书相对地址
+     * @return 电子书完整文件路径
+     */
     private String bookResourcePath(String path) {
         if (StringUtil.isNullOrEmpty(path)) {
             return null;
