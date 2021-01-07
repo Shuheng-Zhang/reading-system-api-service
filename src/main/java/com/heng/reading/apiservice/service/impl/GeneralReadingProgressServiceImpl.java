@@ -1,5 +1,7 @@
 package com.heng.reading.apiservice.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
@@ -23,5 +25,10 @@ public class GeneralReadingProgressServiceImpl extends ServiceImpl<GeneralReadin
         }
 
         this.baseMapper.deleteByBookId(bookId);
+    }
+
+    @Override
+    public IPage<GeneralReadingProgress> findReadingProgressesByBookId(String bookId, Page<GeneralReadingProgress> page) {
+        return this.baseMapper.queryReadingProgressesByBookId(bookId, page);
     }
 }

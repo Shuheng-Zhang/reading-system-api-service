@@ -23,4 +23,13 @@ public class BookProgressIndexServiceImpl extends ServiceImpl<BookProgressIndexM
         }
         this.baseMapper.deleteByBookId(bookId);
     }
+
+    @Override
+    public void deleteByProgressId(String progressId) throws BusinessException {
+        if (StringUtil.isNullOrEmpty(progressId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        this.baseMapper.deleteByProgressId(progressId);
+    }
 }
