@@ -58,8 +58,13 @@ public class FileUtils {
      */
     public static void deleteFile(String filePath) {
         File file = new File(filePath);
+        boolean isDeleted = false;
         if (file.exists()) {
-            file.delete();
+            isDeleted = file.delete();
+        }
+
+        if (isDeleted) {
+            System.err.println(StringUtil.getCurrentTime() + " [FileUtils] Deleted File " + filePath);
         }
     }
 }
