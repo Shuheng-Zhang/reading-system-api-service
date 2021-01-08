@@ -31,6 +31,7 @@ public interface ImporterService {
      * @param mimeType 文件类型
      * @param accountId 用户帐号ID
      * @return 文件存储相对路径
+     * @exception IOException
      */
     String transFile2Dest(MultipartFile file, FileMimeType mimeType, String accountId) throws IOException;
 

@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 /**
+ * 电子书阅读配置数据控制器
  * @author heng
  */
 @RequestMapping("/readingConfig")

@@ -11,10 +11,24 @@ import java.util.Date;
  */
 public class StringUtil {
 
+    /**
+     * 文件容量 字节
+     */
     final private static long BYTE = 1024;
+
+    /**
+     * 文件容量 千字节
+     */
     final private static long KB = 1048576;
+
+    /**
+     * 文件容量 兆字节
+     */
     final private static long MB = 1073741824;
 
+    /**
+     * 统一默认日期格式
+     */
     final private static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**

@@ -22,7 +22,14 @@ import java.util.*;
 public class EpubParseUtils {
 
 
+    /**
+     * JPG 图片格式后缀名
+     */
     final private static String JPG = ".jpg";
+
+    /**
+     * PNG 图片格式后缀名
+     */
     final private static String PNG = ".png";
 
     /**

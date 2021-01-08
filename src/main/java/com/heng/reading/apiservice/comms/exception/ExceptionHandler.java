@@ -13,7 +13,7 @@ public class ExceptionHandler {
 
     /**
      * 处理业务异常
-     * @param e
+     * @param e 业务异常
      * @return
      */
     @org.springframework.web.bind.annotation.ExceptionHandler(value = BusinessException.class)
@@ -23,7 +23,7 @@ public class ExceptionHandler {
 
     /**
      * 处理其他异常
-     * @param e
+     * @param e 缺省处理异常
      * @return
      */
     @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
