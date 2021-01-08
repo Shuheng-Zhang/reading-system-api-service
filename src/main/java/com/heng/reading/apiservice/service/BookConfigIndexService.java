@@ -13,5 +13,9 @@ public interface BookConfigIndexService extends IService<BookConfigIndex> {
      */
     void deleteByBookId(String bookId);
 
-
+    /**
+     * 检查电子书阅读配置是否存在
+     * @param bookId 电子书ID
+     */
+    void checkReadingConfigExisted(String bookId);
 }

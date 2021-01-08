@@ -21,4 +21,11 @@ public interface BookConfigIndexMapper extends BaseMapper<BookConfigIndex> {
      * @return
      */
     int deleteByBookId(String bookId);
+
+    /**
+     * 检查电子书阅读配置是否存在
+     * @param bookId
+     * @return
+     */
+    Integer checkConfigExisted(String bookId);
 }

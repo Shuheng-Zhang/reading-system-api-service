@@ -17,11 +17,16 @@ import com.heng.reading.apiservice.service.GeneralReadingConfigService;
 public class GeneralReadingConfigServiceImpl extends ServiceImpl<GeneralReadingConfigMapper, GeneralReadingConfig> implements GeneralReadingConfigService {
 
     @Override
-    public void deleteReadingConfigsByBookId(String bookId) throws BusinessException {
+    public void deleteReadingConfigByBookId(String bookId) throws BusinessException {
         if (StringUtil.isNullOrEmpty(bookId)) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
         }
 
         this.baseMapper.deleteByBookId(bookId);
+    }
+
+    @Override
+    public GeneralReadingConfig findByBookId(String bookId) {
+        return this.baseMapper.queryByBookId(bookId);
     }
 }

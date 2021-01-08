@@ -55,4 +55,9 @@ public class CommCodeMsg {
      * 信息 系统错误
      */
     final public static String MSG_SYS_ERR = "SYSTEM ERROR OCCURRED";
+
+    /**
+     * 信息 不可重复数据错误
+     */
+    final public static String MSG_DUPLICATED_REQUEST_ERR = "DUPLICATED REQUEST ERROR";
 }

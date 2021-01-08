@@ -20,4 +20,8 @@
   <delete id="deleteByBookId" parameterType="java.lang.String">
     DELETE FROM book_config_index WHERE book_id = #{bookId}
   </delete>
+
+  <select id="checkConfigExisted" resultType="java.lang.Integer">
+    SELECT COUNT(id) as res FROM book_config_index WHERE book_id = #{bookId} limit 1
+  </select>
 </mapper>

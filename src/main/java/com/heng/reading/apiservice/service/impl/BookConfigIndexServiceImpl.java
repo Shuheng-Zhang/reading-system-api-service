@@ -24,4 +24,13 @@ public class BookConfigIndexServiceImpl extends ServiceImpl<BookConfigIndexMappe
 
         this.baseMapper.deleteByBookId(bookId);
     }
+
+    @Override
+    public void checkReadingConfigExisted(String bookId) {
+        Integer res = this.baseMapper.checkConfigExisted(bookId);
+
+        if (res == 1) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_DUPLICATED_REQUEST_ERR);
+        }
+    }
 }

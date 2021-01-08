@@ -14,4 +14,11 @@ public interface GeneralReadingConfigMapper extends BaseMapper<GeneralReadingCon
      * @return
      */
     int deleteByBookId(String bookId);
+
+    /**
+     * 查询当前电子书阅读配置
+     * @param bookId 电子书ID
+     * @return
+     */
+    GeneralReadingConfig queryByBookId(String bookId);
 }

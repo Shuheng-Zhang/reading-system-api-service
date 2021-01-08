@@ -18,4 +18,9 @@
   <delete id="deleteByBookId" parameterType="java.lang.String">
     DELETE FROM general_reading_config WHERE id IN (SELECT config_id FROM book_config_index WHERE book_id = #{bookId})
   </delete>
+
+  <select id="queryByBookId" resultMap="BaseResultMap">
+    SELECT id, config_font_family, config_font_size, config_font_style, config_theme FROM general_reading_config
+    WHERE id IN (SELECT config_id FROM book_config_index WHERE book_id = #{bookId}) LIMIT 1
+  </select>
 </mapper>

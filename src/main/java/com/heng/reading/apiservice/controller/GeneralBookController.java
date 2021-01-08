@@ -84,7 +84,7 @@ public class GeneralBookController {
             generalBookService.removeBookByBookId(bookId);
             generalBookmarkService.deleteBookmarksByBookId(bookId);
             generalReadingProgressService.deleteReadingProgressesByBookId(bookId);
-            generalReadingConfigService.deleteReadingConfigsByBookId(bookId);
+            generalReadingConfigService.deleteReadingConfigByBookId(bookId);
 
             // 删除电子书关联索引信息（关联的用户帐号、书签ID、阅读进度ID、阅读配置ID）
             accountBookIndexService.deleteByBookId(bookId);
