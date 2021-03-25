@@ -35,10 +35,10 @@ public class BookFileParseServiceImpl implements BookFileParseService {
     @Override
     public String fetchBookCover(Book epubBook, String accountId) throws IOException {
 
-        String coverStoredPath = accountDataDirRoot + accountId + "/covers/";
+        String coverStoredPath = accountDataDirRoot + "/" + accountId + "/covers/";
 
         String coverFileName = EpubParseUtils.getBookCover(epubBook, coverStoredPath);
 
-        return accountId + "/covers/" + coverFileName;
+        return "/" + accountId + "/covers/" + coverFileName;
     }
 }

@@ -43,7 +43,7 @@ public class ImporterServiceImpl implements ImporterService {
 
     @Override
     public void checkUserDir(String accountId) {
-        FileUtils.createDir(accountDataDirRoot + accountId);
+        FileUtils.createDir(accountDataDirRoot + "/" + accountId);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ImporterServiceImpl implements ImporterService {
             return null;
         }
 
-        String path = accountId + "/" + UUIDUtil.uuid() + extName;
+        String path = "/" + accountId + "/" + UUIDUtil.uuid() + extName;
         String destFilePath = accountDataDirRoot + path;;
         File dest = new File(destFilePath);
         FileUtils.transFile2Dest(file, dest);

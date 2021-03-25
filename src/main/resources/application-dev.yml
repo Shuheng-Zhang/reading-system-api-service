@@ -46,5 +46,5 @@ spring:
 
 # 外部数据存储
 extendStorage:
-  # 用户帐号数据根目录
-  accountDataDirRoot: /home/heng/workspace/test-data-workspace/epub-reading-system-api-server/accounts/
+  # 用户数据根目录
+  accountDataDirRoot: /Users/heng/workspace/test-data-workspace/general_reading_system/accounts
