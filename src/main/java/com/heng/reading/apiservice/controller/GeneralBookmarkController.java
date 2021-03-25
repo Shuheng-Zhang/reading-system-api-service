@@ -13,6 +13,8 @@ import com.heng.reading.apiservice.entity.GeneralBookmark;
 import com.heng.reading.apiservice.service.BookBookmarkIndexService;
 import com.heng.reading.apiservice.service.GeneralBookService;
 import com.heng.reading.apiservice.service.GeneralBookmarkService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
  * 书签数据控制器
  * @author heng
  */
+@Api(tags = "书签数据控制器")
 @RestController
 @RequestMapping("/bookmark")
 public class GeneralBookmarkController {
@@ -40,6 +43,7 @@ public class GeneralBookmarkController {
      * @param bookmark 书签信息
      * @return
      */
+    @ApiOperation("创建电子书书签")
     @PostMapping("{bookId}/create")
     public ResultData<Object> createBookmark(@PathVariable("bookId") String bookId, @RequestBody GeneralBookmark bookmark) {
 
@@ -73,6 +77,7 @@ public class GeneralBookmarkController {
      * @param queryReqDto requests.bookId - 电子书ID
      * @return
      */
+    @ApiOperation("分页查询电子书书签列表")
     @PostMapping("list")
     public ResultData<IPage<GeneralBookmark>> listBookmarksByBookId(@RequestBody PageQueryReqDto<String> queryReqDto) {
         String bookId = queryReqDto.getReqParam("bookId");
@@ -96,6 +101,7 @@ public class GeneralBookmarkController {
      * @param bookmarkIds 书签ID列表
      * @return
      */
+    @ApiOperation("批量删除电子书书签")
     @PostMapping("remove")
     public ResultData<Object> removeBookmarks(@RequestBody String[] bookmarkIds) {
         if (StringUtil.isStringsBlank(bookmarkIds)) {

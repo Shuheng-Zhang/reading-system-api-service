@@ -13,6 +13,8 @@ import com.heng.reading.apiservice.entity.GeneralReadingProgress;
 import com.heng.reading.apiservice.service.BookProgressIndexService;
 import com.heng.reading.apiservice.service.GeneralBookService;
 import com.heng.reading.apiservice.service.GeneralReadingProgressService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
  * 电子书阅读进度数据控制器
  * @author heng
  */
+@Api(tags = "电子书阅读进度数据控制器")
 @RestController
 @RequestMapping("/readingProgress")
 public class GeneralReadingProgressController {
@@ -40,6 +43,7 @@ public class GeneralReadingProgressController {
      * @param readingProgress 阅读进度数据
      * @return
      */
+    @ApiOperation("创建电子书阅读进度")
     @PostMapping("{bookId}/create")
     public ResultData<Object> createReadingProgress(@PathVariable("bookId") String bookId, @RequestBody GeneralReadingProgress readingProgress) {
 
@@ -68,6 +72,7 @@ public class GeneralReadingProgressController {
      * @param queryReqDto requests.bookId - 电子书ID
      * @return
      */
+    @ApiOperation("查询电子书阅读进度列表")
     @PostMapping("/list")
     public ResultData<IPage<GeneralReadingProgress>> listReadingProgressesByBookId(@RequestBody PageQueryReqDto<String> queryReqDto) {
         Integer currentPage = queryReqDto.getCurrentPage();
@@ -89,6 +94,7 @@ public class GeneralReadingProgressController {
      * @param progressIds 阅读进度ID列表
      * @return
      */
+    @ApiOperation("批量删除阅读进度信息")
     @PostMapping("remove")
     public ResultData<Object> removeReadingProgresses(@RequestBody String[] progressIds) {
         if (StringUtil.isStringsBlank(progressIds)) {

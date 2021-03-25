@@ -9,6 +9,8 @@ import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
 import com.heng.reading.apiservice.entity.GeneralBook;
 import com.heng.reading.apiservice.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import javax.annotation.Resource;
  * 电子书数据控制器
  * @author heng
  */
+@Api(tags = "电子书数据控制器")
 @RestController
 @RequestMapping("/book")
 public class GeneralBookController {
@@ -53,6 +56,7 @@ public class GeneralBookController {
      * @param queryReqDto request.accountId - 用户帐号ID
      * @return
      */
+    @ApiOperation("分页查询指定用户帐号的电子书信息")
     @PostMapping("list")
     public ResultData<IPage<GeneralBook>> listBooksByAccountId(@RequestBody PageQueryReqDto<String> queryReqDto) {
 
@@ -73,6 +77,7 @@ public class GeneralBookController {
      * @param bookIds 电子书ID列表
      * @return
      */
+    @ApiOperation("批量移除电子书")
     @PostMapping("remove")
     public ResultData<Object> removeBooks(@RequestBody String[] bookIds) {
 

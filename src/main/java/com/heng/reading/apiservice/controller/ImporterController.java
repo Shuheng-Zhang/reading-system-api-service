@@ -9,6 +9,8 @@ import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.AccountBookIndex;
 import com.heng.reading.apiservice.entity.GeneralBook;
 import com.heng.reading.apiservice.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import nl.siegmann.epublib.domain.Book;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,7 @@ import java.util.Map;
  * 资源导入控制器
  * @author heng
  */
+@Api(tags = "资源导入控制器")
 @RestController
 @RequestMapping("/importer")
 public class ImporterController {
@@ -53,6 +56,7 @@ public class ImporterController {
      * @param fileList 电子书文件列表
      * @return
      */
+    @ApiOperation("导入 ePub 电子书")
     @PostMapping("epub/{accountId}")
     public ResultData<Object> epubBookImport(@PathVariable("accountId") String accountId,
                                              @RequestParam("files") MultipartFile[] fileList) throws IOException {

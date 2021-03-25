@@ -10,6 +10,8 @@ import com.heng.reading.apiservice.entity.GeneralReadingConfig;
 import com.heng.reading.apiservice.service.BookConfigIndexService;
 import com.heng.reading.apiservice.service.GeneralBookService;
 import com.heng.reading.apiservice.service.GeneralReadingConfigService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +21,7 @@ import java.util.Map;
  * 电子书阅读配置数据控制器
  * @author heng
  */
+@Api(tags = "电子书阅读配置数据控制器")
 @RequestMapping("/readingConfig")
 @RestController
 public class GeneralReadingConfigController {
@@ -36,6 +39,7 @@ public class GeneralReadingConfigController {
      * @param readingConfig 阅读配置
      * @return
      */
+    @ApiOperation("创建电子书阅读配置")
     @PostMapping("{bookId}/create")
     public ResultData<Object> createReadingConfig(@PathVariable("bookId") String bookId, @RequestBody GeneralReadingConfig readingConfig) {
 
@@ -66,6 +70,7 @@ public class GeneralReadingConfigController {
      * @param readingConfig 电子书阅读配置
      * @return
      */
+    @ApiOperation("更新电子书阅读配置")
     @PostMapping("update")
     public ResultData<Object> updateReadingConfig(@RequestBody GeneralReadingConfig readingConfig) {
         if (StringUtil.isNullOrEmpty(readingConfig.getId())) {
@@ -82,6 +87,7 @@ public class GeneralReadingConfigController {
      * @param bookId 电子书ID
      * @return
      */
+    @ApiOperation("获取当前电子书阅读配置")
     @GetMapping("fetch")
     public ResultData<GeneralReadingConfig> getReadingConfigByBookId(@RequestParam("bookId") String bookId) {
         GeneralReadingConfig readingConfig = generalReadingConfigService.findByBookId(bookId);
@@ -94,6 +100,7 @@ public class GeneralReadingConfigController {
      * @param reqMap bookId - 电子书ID
      * @return
      */
+    @ApiOperation("移除当前电子书阅读配置")
     @PostMapping("remove")
     public ResultData<Object> removeReadingConfigById(@RequestBody Map<String, String> reqMap) {
         String id = reqMap.get("bookId");

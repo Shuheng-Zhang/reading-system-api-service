@@ -1,5 +1,6 @@
 package com.heng.reading.apiservice.controller;
 
+import com.heng.reading.apiservice.comms.data.ResultData;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hello")
-    public String hello() {
-        return "hello, world";
+    public ResultData<String> hello() {
+        return ResultData.success("Hello, World");
     }
 }
