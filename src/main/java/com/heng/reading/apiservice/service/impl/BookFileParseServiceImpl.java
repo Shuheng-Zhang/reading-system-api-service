@@ -38,7 +38,9 @@ public class BookFileParseServiceImpl implements BookFileParseService {
         String coverStoredPath = accountDataDirRoot + "/" + accountId + "/covers/";
 
         String coverFileName = EpubParseUtils.getBookCover(epubBook, coverStoredPath);
-
+        if (coverFileName == null) {
+            return null;
+        }
         return "/" + accountId + "/covers/" + coverFileName;
     }
 }
