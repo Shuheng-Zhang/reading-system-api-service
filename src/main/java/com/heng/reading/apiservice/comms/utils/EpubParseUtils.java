@@ -82,9 +82,9 @@ public class EpubParseUtils {
 
         // 获取封面资源
         Resource coverImgResource = epubBook.getCoverImage();
-        /*if (coverImgResource == null) {
+        if (coverImgResource == null) {
             return null;
-        }*/
+        }
 
         // 获取封面文件后缀名
         String type = coverImgResource.getMediaType().getDefaultExtension();
