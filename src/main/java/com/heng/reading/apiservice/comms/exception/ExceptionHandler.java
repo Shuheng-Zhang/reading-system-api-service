@@ -27,7 +27,10 @@ public class ExceptionHandler {
      * @return
      */
     @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
-    public ResultData<String> generateExceptionHandler(Exception e) {
-        return ResultData.sysFail(e.getMessage());
+    public ResultData<String> generalExceptionHandler(Exception e) {
+
+        String errMsg = e.getMessage();
+
+        return ResultData.sysFail(errMsg == null ? e.getClass().getName() : errMsg);
     }
 }
