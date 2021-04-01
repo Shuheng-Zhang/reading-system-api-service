@@ -15,14 +15,26 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * API 接口调用日志输出切面
+ */
 @Aspect
 @Component
 @Slf4j
 public class ReqLogAspect {
 
+    /**
+     * 切面应用包配置
+     */
     @Pointcut(value = "execution(* com.heng.reading.apiservice.controller.*.*(..))")
     public void exec() {}
 
+    /**
+     * 执行切面
+     * @param proceedingJoinPoint 切入点
+     * @return
+     * @throws Throwable
+     */
     @Around(value = "exec()")
     public Object execBefore(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
@@ -45,9 +57,9 @@ public class ReqLogAspect {
             params = paramsMap.toString();
         }
 
-        log.info(CommPrefix.PREFIX_REQ + "{} {}", reqMethod, reqUri);
-        log.info(CommPrefix.PREFIX_QUERY_PARAMS + "{}", queryString);
-        log.info(CommPrefix.PREFIX_REQ_BODY + "{}", params);
+        log.info(LogPrefix.PREFIX_REQ + "{} {}", reqMethod, reqUri);
+        log.info(LogPrefix.PREFIX_QUERY_PARAMS + "{}", queryString);
+        log.info(LogPrefix.PREFIX_REQ_BODY + "{}", params);
 
         Object res = proceedingJoinPoint.proceed();
         Gson gson = new Gson();
@@ -56,7 +68,7 @@ public class ReqLogAspect {
             ab = ab.substring(0,200);
             ab += "...";
         }
-        log.info(CommPrefix.PREFIX_RES + "{}", ab);
+        log.info(LogPrefix.PREFIX_RES + "{}", ab);
 
         return res;
     }
