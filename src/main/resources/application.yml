@@ -27,6 +27,9 @@ logging:
     path: ./logs/
 
 spring:
+  # Spring AOP 配置
+  aop:
+    auto: true
   # 序列化-日期格式及时区
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
