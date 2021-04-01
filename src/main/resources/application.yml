@@ -19,11 +19,12 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/*Mapper.xml
 
 
-# 日志级别
+# 日志配置
 logging:
   level:
     com.heng.epub.server.mapper: debug
-
+  file:
+    path: ./logs/
 
 spring:
   # 序列化-日期格式及时区
