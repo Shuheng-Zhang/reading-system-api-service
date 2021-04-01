@@ -1,4 +1,5 @@
 com.heng.reading.apiservice
+com.heng.reading.apiservice.comms.aop
 com.heng.reading.apiservice.comms.config
 com.heng.reading.apiservice.comms.data
 com.heng.reading.apiservice.comms.enums
@@ -6,6 +7,7 @@ com.heng.reading.apiservice.comms.exception
 com.heng.reading.apiservice.comms.utils
 com.heng.reading.apiservice.controller
 com.heng.reading.apiservice.entity
+com.heng.reading.apiservice.init
 com.heng.reading.apiservice.mapper
 com.heng.reading.apiservice.service
 com.heng.reading.apiservice.service.impl
