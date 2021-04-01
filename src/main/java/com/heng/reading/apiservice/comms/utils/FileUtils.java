@@ -30,11 +30,14 @@ public class FileUtils {
      * 创建目录
      * @param dirPath 目录路径
      */
-    public static void createDir(String dirPath) {
+    public static boolean createDir(String dirPath) {
+        boolean res = false;
         File dir = new File(dirPath);
         if (!dir.exists()) {
-            dir.mkdirs();
+            res = dir.mkdirs();
         }
+
+        return res;
     }
 
     /**
@@ -56,15 +59,13 @@ public class FileUtils {
      * 删除指定路径文件
      * @param filePath 文件路径
      */
-    public static void deleteFile(String filePath) {
+    public static boolean deleteFile(String filePath) {
         File file = new File(filePath);
         boolean isDeleted = false;
         if (file.exists()) {
             isDeleted = file.delete();
         }
 
-        if (isDeleted) {
-            System.err.println(StringUtil.getCurrentTime() + " [FileUtils] Deleted File " + filePath);
-        }
+        return isDeleted;
     }
 }

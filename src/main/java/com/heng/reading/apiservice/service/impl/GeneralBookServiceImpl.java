@@ -10,12 +10,14 @@ import com.heng.reading.apiservice.comms.utils.StringUtil;
 import com.heng.reading.apiservice.entity.GeneralBook;
 import com.heng.reading.apiservice.mapper.GeneralBookMapper;
 import com.heng.reading.apiservice.service.GeneralBookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
  * @author heng
  */
+@Slf4j
 @Service
 public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, GeneralBook> implements GeneralBookService{
 
@@ -40,11 +42,17 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
 
             // 删除电子书文件
             if (bookPath != null) {
-                FileUtils.deleteFile(bookPath);
+                boolean res = FileUtils.deleteFile(bookPath);
+                if (res) {
+                    log.warn("Deleted eBook File: {}", bookPath);
+                }
             }
             // 删除电子书封面文件
             if (coverPath != null) {
-                FileUtils.deleteFile(coverPath);
+                boolean res = FileUtils.deleteFile(coverPath);
+                if (res) {
+                    log.warn("Deleted eBook Cover: {}", coverPath);
+                }
             }
 
             // 删除电子书数据库记录

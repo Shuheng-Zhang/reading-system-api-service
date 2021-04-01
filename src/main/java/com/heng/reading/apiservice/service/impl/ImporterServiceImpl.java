@@ -6,6 +6,7 @@ import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.FileUtils;
 import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.service.ImporterService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import java.io.IOException;
 /**
  * @author heng
  */
+@Slf4j
 @Service
 public class ImporterServiceImpl implements ImporterService {
 
@@ -43,7 +45,10 @@ public class ImporterServiceImpl implements ImporterService {
 
     @Override
     public void checkUserDir(String accountId) {
-        FileUtils.createDir(accountDataDirRoot + "/" + accountId);
+        boolean res = FileUtils.createDir(accountDataDirRoot + "/" + accountId);
+        if (res) {
+            log.warn("Created User Directory: {}", accountId);
+        }
     }
 
     @Override
