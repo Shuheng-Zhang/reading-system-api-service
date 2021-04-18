@@ -7,6 +7,10 @@ server:
   # 应用服务端口配置
   port: 8080
 
+# 数据库调用日志输出配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 spring:
   # 数据源基本配置
@@ -27,7 +31,6 @@ spring:
       max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
       connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
       connection-test-query: SELECT 1
-
 
   # Redis 缓存配置
   redis:
