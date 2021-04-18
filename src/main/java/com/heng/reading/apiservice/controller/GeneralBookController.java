@@ -51,6 +51,9 @@ public class GeneralBookController {
     @Resource
     private BookConfigIndexService bookConfigIndexService;
 
+    @Resource
+    private RecentReadingBookIndexService recentReadingBookIndexService;
+
     /**
      * 分页查询指定用户帐号的电子书信息
      * @param queryReqDto requests.accountId - 用户帐号ID
@@ -92,11 +95,12 @@ public class GeneralBookController {
             generalReadingProgressService.deleteReadingProgressesByBookId(bookId);
             generalReadingConfigService.deleteReadingConfigByBookId(bookId);
 
-            // 删除电子书关联索引信息（关联的用户帐号、书签ID、阅读进度ID、阅读配置ID）
+            // 删除电子书关联索引信息（关联的用户帐号、书签ID、阅读进度ID、阅读配置ID、最近阅读ID）
             accountBookIndexService.deleteByBookId(bookId);
             bookBookmarkIndexService.deleteByBookId(bookId);
             bookProgressIndexService.deleteByBookId(bookId);
             bookConfigIndexService.deleteByBookId(bookId);
+            recentReadingBookIndexService.deleteByBookId(bookId);
         }
 
         return ResultData.success();
