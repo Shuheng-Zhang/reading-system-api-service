@@ -1,0 +1,50 @@
+
+#################################################################
+##### 应用部署环境配置                                       ######
+#################################################################
+
+server:
+  # 应用服务端口配置
+  port: 9085
+
+
+spring:
+  # 数据源基本配置
+  datasource:
+    username: root
+    password: heng
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/general_reading_system?useUnicode=true&characterEncoding=utf-8
+
+    # 使用 Hikari 数据库连接池（Spring Boot 2 默认）
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: HikariCP
+      minimum-idle: 5 #最小空闲连接数量
+      idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+      maximum-pool-size: 10 #连接池最大连接数，默认是10
+      auto-commit: true  #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+      connection-test-query: SELECT 1
+
+  # Redis 缓存配置
+  redis:
+    database: 4
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 24
+        max-wait: 60000
+        max-idle: 12
+        min-idle: 0
+    timeout: 10000
+
+
+# 外部数据存储
+extendStorage:
+  # 用户数据根目录
+  accountDataDirRoot: /Users/heng/workspace/test-data-workspace/general_reading_system/accounts
+
