@@ -6,13 +6,14 @@
     <!--@Table general_reading_progress-->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="progress_title" jdbcType="VARCHAR" property="progressTitle" />
+    <result column="progress_percentage" jdbcType="VARCHAR" property="progressPercentage" />
     <result column="progress_location_index" jdbcType="LONGVARCHAR" property="progressLocationIndex" />
     <result column="progress_location_content" jdbcType="LONGVARCHAR" property="progressLocationContent" />
     <result column="progress_created_time" jdbcType="VARCHAR" property="progressCreatedTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, progress_title, progress_location_index, progress_location_content, progress_created_time
+    id, progress_title, progress_percentage, progress_location_index, progress_location_content, progress_created_time
   </sql>
 
   <delete id="deleteByBookId" parameterType="java.lang.String">
@@ -20,7 +21,7 @@
   </delete>
 
   <select id="queryReadingProgressesByBookId" resultMap="BaseResultMap" parameterType="java.lang.String">
-    SELECT id, progress_title, progress_location_index, progress_location_content, progress_created_time
+    SELECT id, progress_title, progress_percentage, progress_location_index, progress_location_content, progress_created_time
     FROM general_reading_progress
     WHERE id IN (SELECT progress_id FROM book_progress_index WHERE book_id = #{bookId})
   </select>

@@ -25,6 +25,12 @@ public class GeneralReadingProgress {
     private String progressTitle;
 
     /**
+     * 进度-百分比
+     */
+    @TableField(value = "progress_percentage")
+    private String progressPercentage;
+
+    /**
      * 进度-位置索引
      */
     @TableField(value = "progress_location_index")
