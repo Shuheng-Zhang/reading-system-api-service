@@ -56,7 +56,7 @@ public class GeneralBookController {
 
     /**
      * 分页查询指定用户帐号的电子书信息
-     * @param queryReqDto requests.accountId - 用户帐号ID
+     * @param queryReqDto requests.accountId(必要) - 用户帐号ID, requests.title(可选) - 按标题查询, requests.authors(可选) - 按作者查询
      * @return
      */
     @ApiOperation("分页查询指定用户帐号的电子书信息")
