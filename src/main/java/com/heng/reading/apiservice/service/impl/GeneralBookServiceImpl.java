@@ -33,6 +33,11 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
     }
 
     @Override
+    public IPage<GeneralBook> findBooksByAccountId(String accountId, String bookTitleLike, String bookAuthorsLike, Page<GeneralBook> page) {
+        return this.baseMapper.queryBookByAccountIdWithTitleLikeOrAuthorsLike(accountId, bookTitleLike, bookAuthorsLike, page);
+    }
+
+    @Override
     public void removeBookByBookId(String bookId) throws BusinessException {
 
         // 查询电子书信息对象

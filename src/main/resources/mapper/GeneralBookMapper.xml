@@ -26,6 +26,18 @@
     )
   </select>
 
+  <select id="queryBookByAccountIdWithTitleLikeOrAuthorsLike" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url
+    FROM general_book
+    WHERE id IN (SELECT book_id FROM account_book_index WHERE account_id = #{accountId})
+    <if test='titleLike != null and titleLike != ""'>
+      AND book_title LIKE '%' #{titleLike} '%'
+    </if>
+    <if test='authorLike != null and authorLike != ""'>
+      AND book_authors LIKE '%' #{authorLike} '%'
+    </if>
+  </select>
+
   <select id="checkBookExistedByBookId" resultType="java.lang.Integer">
     SELECT COUNT(id) as res FROM general_book WHERE id = #{bookId} limit 1
   </select>

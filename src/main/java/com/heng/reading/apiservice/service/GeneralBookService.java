@@ -21,6 +21,16 @@ public interface GeneralBookService extends IService<GeneralBook> {
     IPage<GeneralBook> findBooksByAccountId(String accountId, Page<GeneralBook> page);
 
     /**
+     * 查询指定用户帐号下的所有电子书信息
+     * @param accountId 用户账号ID
+     * @param bookTitleLike 模糊查询-标题
+     * @param bookAuthorsLike 模糊查询-作者
+     * @param page 分页控制
+     * @return
+     */
+    IPage<GeneralBook> findBooksByAccountId(String accountId, String bookTitleLike, String bookAuthorsLike, Page<GeneralBook> page);
+
+    /**
      * 删除当前电子书信息及其文件数据
      * @param bookId 电子书ID
      */

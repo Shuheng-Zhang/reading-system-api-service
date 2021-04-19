@@ -65,12 +65,22 @@ public class GeneralBookController {
 
         String accountId = queryReqDto.getReqParam("accountId");
 
+        // 模糊查询-标题
+        String titleLike = queryReqDto.getReqParam("title");
+        // 模糊查询-作者
+        String authorLike = queryReqDto.getReqParam("authors");
+
         if (StringUtil.isNullOrEmpty(accountId)) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
         }
 
         Page<GeneralBook> page = new Page<>(queryReqDto.getCurrentPage(), queryReqDto.getLimit());
-        IPage<GeneralBook> iPage = generalBookService.findBooksByAccountId(accountId, page);
+        IPage<GeneralBook> iPage = null;
+        if (!StringUtil.isNullOrEmpty(titleLike) || !StringUtil.isNullOrEmpty(authorLike)) {
+            iPage = generalBookService.findBooksByAccountId(accountId, titleLike, authorLike, page);
+        } else {
+            iPage = generalBookService.findBooksByAccountId(accountId, page);
+        }
 
         return ResultData.success(iPage);
     }
