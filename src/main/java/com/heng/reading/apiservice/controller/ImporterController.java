@@ -93,27 +93,13 @@ public class ImporterController {
             String coverFileName = bookFileParseService.fetchBookCover(epubBook, accountId);
 
             // 将 ePub 元数据及封面文件URL写入到数据库（GeneralBook）
-            String bookId = UUIDUtil.uuid();
-            GeneralBook book = new GeneralBook();
-            book.setId(bookId);
-            book.setBookSize(StringUtil.storageUnitConvert(bookSize));
-            book.setBookFileUrl(bookPath);
-            book.setBookPushedTime(StringUtil.getCurrentTime());
-            if (metadata != null) {
-                book.setBookTitle(metadata.get("title"));
-                book.setBookAuthors(metadata.get("authors"));
-                book.setBookDescription(metadata.get("description"));
-            }
-            if (!StringUtil.isNullOrEmpty(coverFileName)) {
-                book.setBookCoverUrl(coverFileName);
-            }
-            generalBookService.save(book);
+            GeneralBook book = generalBookService.config(metadata, coverFileName, bookPath, StringUtil.storageUnitConvert(bookSize), StringUtil.getCurrentTime());
 
             // 建立 GeneralBook 信息与用户帐号的关联索引（AccountBookIndex）
-            AccountBookIndex accountBookIndex = new AccountBookIndex();
-            accountBookIndex.setId(UUIDUtil.uuid());
-            accountBookIndex.setBookId(bookId);
-            accountBookIndex.setAccountId(accountId);
+            AccountBookIndex accountBookIndex = accountBookIndexService.config(accountId, book.getId());
+
+            generalBookService.save(book);
+
             accountBookIndexService.save(accountBookIndex);
         }
         return ResultData.success();

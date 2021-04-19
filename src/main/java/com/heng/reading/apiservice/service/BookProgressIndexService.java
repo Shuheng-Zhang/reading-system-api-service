@@ -18,4 +18,12 @@ public interface BookProgressIndexService extends IService<BookProgressIndex> {
      * @param progressId 阅读进度ID
      */
     void deleteByProgressId(String progressId);
+
+    /**
+     * 配置 电子书-阅读进度索引
+     * @param bookId 电子书ID
+     * @param progressId 阅读进度ID
+     * @return
+     */
+    BookProgressIndex config(String bookId, String progressId);
 }

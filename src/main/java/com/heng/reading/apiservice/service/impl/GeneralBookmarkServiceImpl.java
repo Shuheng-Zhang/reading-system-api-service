@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
+import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.GeneralBookmark;
 import com.heng.reading.apiservice.mapper.GeneralBookmarkMapper;
 import com.heng.reading.apiservice.service.GeneralBookmarkService;
@@ -30,4 +31,13 @@ public class GeneralBookmarkServiceImpl extends ServiceImpl<GeneralBookmarkMappe
 
         this.baseMapper.deleteByBookId(bookId);
     }
+
+    @Override
+    public GeneralBookmark configBookmark(GeneralBookmark bookmark) {
+        bookmark.setId(UUIDUtil.uuid());
+        bookmark.setBookmarkCreatedTime(StringUtil.getCurrentTime());
+        return bookmark;
+    }
+
+
 }

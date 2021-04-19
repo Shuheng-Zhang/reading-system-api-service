@@ -18,4 +18,13 @@ public interface BookBookmarkIndexService extends IService<BookBookmarkIndex> {
      * @param bookmarkId 书签ID
      */
     void deleteByBookmarkId(String bookmarkId);
+
+    /**
+     * 配置 电子书-书签索引
+     * 创建 索引主键
+     * @param bookId 源电子书ID
+     * @param bookmarkId 源书签ID
+     * @return
+     */
+    BookBookmarkIndex configIndex(String bookId, String bookmarkId);
 }

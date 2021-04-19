@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
+import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.BookConfigIndex;
 import com.heng.reading.apiservice.mapper.BookConfigIndexMapper;
 import com.heng.reading.apiservice.service.BookConfigIndexService;
@@ -30,5 +31,20 @@ public class BookConfigIndexServiceImpl extends ServiceImpl<BookConfigIndexMappe
         if (res == 1) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_DUPLICATED_REQUEST_ERR);
         }
+    }
+
+    @Override
+    public BookConfigIndex config(String bookId, String configId) {
+
+        if (StringUtil.isNullOrEmpty(bookId) || StringUtil.isNullOrEmpty(configId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        BookConfigIndex index = new BookConfigIndex();
+        index.setId(UUIDUtil.uuid());
+        index.setBookId(bookId);
+        index.setConfigId(configId);
+
+        return index;
     }
 }

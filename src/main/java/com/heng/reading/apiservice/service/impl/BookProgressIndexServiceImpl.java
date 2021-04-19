@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
+import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.BookProgressIndex;
 import com.heng.reading.apiservice.mapper.BookProgressIndexMapper;
 import com.heng.reading.apiservice.service.BookProgressIndexService;
@@ -29,5 +30,20 @@ public class BookProgressIndexServiceImpl extends ServiceImpl<BookProgressIndexM
         }
 
         this.baseMapper.deleteByProgressId(progressId);
+    }
+
+    @Override
+    public BookProgressIndex config(String bookId, String progressId) {
+
+        if (StringUtil.isNullOrEmpty(bookId) || StringUtil.isNullOrEmpty(progressId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        BookProgressIndex index = new BookProgressIndex();
+        index.setId(UUIDUtil.uuid());
+        index.setBookId(bookId);
+        index.setProgressId(progressId);
+
+        return index;
     }
 }

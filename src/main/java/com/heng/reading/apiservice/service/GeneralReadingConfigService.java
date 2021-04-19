@@ -19,4 +19,12 @@ public interface GeneralReadingConfigService extends IService<GeneralReadingConf
      * @return
      */
     GeneralReadingConfig findByBookId(String bookId);
+
+    /**
+     * 配置 电子书阅读配置信息
+     * 配置 配置实例主键
+     * @param config 源配置信息
+     * @return
+     */
+    GeneralReadingConfig config(GeneralReadingConfig config);
 }

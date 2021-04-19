@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
+import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.BookBookmarkIndex;
 import com.heng.reading.apiservice.mapper.BookBookmarkIndexMapper;
 import com.heng.reading.apiservice.service.BookBookmarkIndexService;
@@ -29,4 +30,20 @@ public class BookBookmarkIndexServiceImpl extends ServiceImpl<BookBookmarkIndexM
         }
         this.baseMapper.deleteByBookmarkId(bookmarkId);
     }
+
+    @Override
+    public BookBookmarkIndex configIndex(String bookId, String bookmarkId) {
+
+        if (StringUtil.isNullOrEmpty(bookId) || StringUtil.isNullOrEmpty(bookmarkId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        BookBookmarkIndex index = new BookBookmarkIndex();
+        index.setBookmarkId(bookmarkId);
+        index.setBookId(bookId);
+        index.setId(UUIDUtil.uuid());
+        return index;
+    }
+
+
 }

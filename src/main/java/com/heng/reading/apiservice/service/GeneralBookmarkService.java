@@ -22,4 +22,13 @@ public interface GeneralBookmarkService extends IService<GeneralBookmark> {
      * @param bookId 电子书ID
      */
     void deleteBookmarksByBookId(String bookId);
+
+    /**
+     * 配置 书签
+     * 创建 书签主键
+     * 创建 书签创建时间
+     * @param bookmark 源书签实例
+     * @return
+     */
+    GeneralBookmark configBookmark(GeneralBookmark bookmark);
 }

@@ -12,4 +12,12 @@ public interface AccountBookIndexService extends IService<AccountBookIndex> {
      * @param bookId 电子书ID
      */
     void deleteByBookId(String bookId);
+
+    /**
+     * 配置 用户账号-电子书索引
+     * @param accountId 用户账号ID
+     * @param bookId 电子书ID
+     * @return
+     */
+    AccountBookIndex config(String accountId, String bookId);
 }

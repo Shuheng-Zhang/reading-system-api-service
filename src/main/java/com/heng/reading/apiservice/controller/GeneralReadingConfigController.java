@@ -40,7 +40,7 @@ public class GeneralReadingConfigController {
      * @return
      */
     @ApiOperation("创建电子书阅读配置")
-    @PostMapping("{bookId}/create")
+    @PostMapping("create/{bookId}")
     public ResultData<Object> createReadingConfig(@PathVariable("bookId") String bookId, @RequestBody GeneralReadingConfig readingConfig) {
 
         // 检查当前电子书是否已创建阅读配置
@@ -49,18 +49,19 @@ public class GeneralReadingConfigController {
         // 检查电子书是否存在
         generalBookService.checkBookExisted(bookId);
 
-        String configId = UUIDUtil.uuid();
-        readingConfig.setId(configId);
+        GeneralReadingConfig targetConfig = generalReadingConfigService.config(readingConfig);
 
-        BookConfigIndex bookConfigIndex = new BookConfigIndex();
+        BookConfigIndex targetIndex = bookConfigIndexService.config(bookId, targetConfig.getId());
+
+        /*BookConfigIndex bookConfigIndex = new BookConfigIndex();
         bookConfigIndex.setId(UUIDUtil.uuid());
         bookConfigIndex.setConfigId(configId);
-        bookConfigIndex.setBookId(bookId);
+        bookConfigIndex.setBookId(bookId);*/
 
         // 保存阅读配置
         generalReadingConfigService.save(readingConfig);
         // 保存当前阅读配置与电子书关联索引
-        bookConfigIndexService.save(bookConfigIndex);
+        bookConfigIndexService.save(targetIndex);
 
         return ResultData.success();
     }

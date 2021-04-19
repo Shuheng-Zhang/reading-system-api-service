@@ -7,7 +7,6 @@ import com.heng.reading.apiservice.comms.data.PageQueryReqDto;
 import com.heng.reading.apiservice.comms.data.ResultData;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
-import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.BookBookmarkIndex;
 import com.heng.reading.apiservice.entity.GeneralBookmark;
 import com.heng.reading.apiservice.service.BookBookmarkIndexService;
@@ -44,7 +43,7 @@ public class GeneralBookmarkController {
      * @return
      */
     @ApiOperation("创建电子书书签")
-    @PostMapping("{bookId}/create")
+    @PostMapping("create/{bookId}")
     public ResultData<Object> createBookmark(@PathVariable("bookId") String bookId, @RequestBody GeneralBookmark bookmark) {
 
         // 检查电子书信息是否存在
@@ -54,20 +53,16 @@ public class GeneralBookmarkController {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
         }
 
-        String bookmarkId = UUIDUtil.uuid();
-        bookmark.setId(bookmarkId);
-        bookmark.setBookmarkCreatedTime(StringUtil.getCurrentTime());
+        // 配置书签
+        GeneralBookmark targetBookmark = generalBookmarkService.configBookmark(bookmark);
 
-        // 创建电子书与书签索引
-        BookBookmarkIndex bookBookmarkIndex = new BookBookmarkIndex();
-        bookBookmarkIndex.setBookmarkId(bookmarkId);
-        bookBookmarkIndex.setBookId(bookId);
-        bookBookmarkIndex.setId(UUIDUtil.uuid());
+        // 配置电子书与书签索引
+        BookBookmarkIndex targetBookBookmarkIndex = bookBookmarkIndexService.configIndex(bookId, targetBookmark.getId());
 
         // 保存书签信息
-        generalBookmarkService.save(bookmark);
+        generalBookmarkService.save(targetBookmark);
         // 保存电子书-书签索引信息
-        bookBookmarkIndexService.save(bookBookmarkIndex);
+        bookBookmarkIndexService.save(targetBookBookmarkIndex);
 
         return ResultData.success();
     }

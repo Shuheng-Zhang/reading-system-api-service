@@ -22,4 +22,13 @@ public interface GeneralReadingProgressService extends IService<GeneralReadingPr
      * @return
      */
     IPage<GeneralReadingProgress> findReadingProgressesByBookId(String bookId, Page<GeneralReadingProgress> page);
+
+    /**
+     * 配置 电子书阅读进度
+     * 配置 实例主键
+     * 配置 实例创建时间
+     * @param readingProgress 源阅读进度数据实例
+     * @return
+     */
+    GeneralReadingProgress config(GeneralReadingProgress readingProgress);
 }

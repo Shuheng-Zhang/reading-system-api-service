@@ -44,25 +44,20 @@ public class GeneralReadingProgressController {
      * @return
      */
     @ApiOperation("创建电子书阅读进度")
-    @PostMapping("{bookId}/create")
+    @PostMapping("create/{bookId}")
     public ResultData<Object> createReadingProgress(@PathVariable("bookId") String bookId, @RequestBody GeneralReadingProgress readingProgress) {
 
         // 检查当前电子书信息是否存在
         generalBookService.checkBookExisted(bookId);
 
-        String progressId = UUIDUtil.uuid();
-        readingProgress.setId(progressId);
-        readingProgress.setProgressCreatedTime(StringUtil.getCurrentTime());
+        GeneralReadingProgress targetReadingProgress = generalReadingProgressService.config(readingProgress);
 
-        BookProgressIndex bookProgressIndex = new BookProgressIndex();
-        bookProgressIndex.setId(UUIDUtil.uuid());
-        bookProgressIndex.setProgressId(progressId);
-        bookProgressIndex.setBookId(bookId);
+        BookProgressIndex targetIndex = bookProgressIndexService.config(bookId, targetReadingProgress.getId());
 
         // 保存阅读进度数据
-        generalReadingProgressService.save(readingProgress);
+        generalReadingProgressService.save(targetReadingProgress);
         // 创建阅读进度与电子书关联索引
-        bookProgressIndexService.save(bookProgressIndex);
+        bookProgressIndexService.save(targetIndex);
 
         return ResultData.success();
     }

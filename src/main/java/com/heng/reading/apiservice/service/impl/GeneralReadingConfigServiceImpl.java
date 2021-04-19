@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
+import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.GeneralReadingConfig;
 import com.heng.reading.apiservice.mapper.GeneralReadingConfigMapper;
 import com.heng.reading.apiservice.service.GeneralReadingConfigService;
@@ -26,5 +27,11 @@ public class GeneralReadingConfigServiceImpl extends ServiceImpl<GeneralReadingC
     @Override
     public GeneralReadingConfig findByBookId(String bookId) {
         return this.baseMapper.queryByBookId(bookId);
+    }
+
+    @Override
+    public GeneralReadingConfig config(GeneralReadingConfig config) {
+        config.setId(UUIDUtil.uuid());
+        return config;
     }
 }

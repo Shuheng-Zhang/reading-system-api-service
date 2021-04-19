@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
+import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.GeneralReadingProgress;
 import com.heng.reading.apiservice.mapper.GeneralReadingProgressMapper;
 import com.heng.reading.apiservice.service.GeneralReadingProgressService;
@@ -28,5 +29,14 @@ public class GeneralReadingProgressServiceImpl extends ServiceImpl<GeneralReadin
     @Override
     public IPage<GeneralReadingProgress> findReadingProgressesByBookId(String bookId, Page<GeneralReadingProgress> page) {
         return this.baseMapper.queryReadingProgressesByBookId(bookId, page);
+    }
+
+    @Override
+    public GeneralReadingProgress config(GeneralReadingProgress readingProgress) {
+
+        readingProgress.setId(UUIDUtil.uuid());
+        readingProgress.setProgressCreatedTime(StringUtil.getCurrentTime());
+
+        return readingProgress;
     }
 }

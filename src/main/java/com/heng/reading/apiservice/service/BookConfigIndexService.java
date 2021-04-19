@@ -18,4 +18,15 @@ public interface BookConfigIndexService extends IService<BookConfigIndex> {
      * @param bookId 电子书ID
      */
     void checkReadingConfigExisted(String bookId);
+
+    /**
+     * 配置 电子书-阅读配置索引
+     * 配置 索引主键
+     * 配置 电子书ID
+     * 配置 阅读配置ID
+     * @param bookId 源电子书ID
+     * @param configId 源阅读配置ID
+     * @return
+     */
+    BookConfigIndex config(String bookId, String configId);
 }
