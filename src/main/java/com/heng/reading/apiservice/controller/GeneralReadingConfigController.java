@@ -4,7 +4,6 @@ import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.data.ResultData;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
-import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.BookConfigIndex;
 import com.heng.reading.apiservice.entity.GeneralReadingConfig;
 import com.heng.reading.apiservice.service.BookConfigIndexService;
@@ -52,11 +51,6 @@ public class GeneralReadingConfigController {
         GeneralReadingConfig targetConfig = generalReadingConfigService.config(readingConfig);
 
         BookConfigIndex targetIndex = bookConfigIndexService.config(bookId, targetConfig.getId());
-
-        /*BookConfigIndex bookConfigIndex = new BookConfigIndex();
-        bookConfigIndex.setId(UUIDUtil.uuid());
-        bookConfigIndex.setConfigId(configId);
-        bookConfigIndex.setBookId(bookId);*/
 
         // 保存阅读配置
         generalReadingConfigService.save(readingConfig);
