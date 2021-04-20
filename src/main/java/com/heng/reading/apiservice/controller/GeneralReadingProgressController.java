@@ -7,7 +7,6 @@ import com.heng.reading.apiservice.comms.data.PageQueryReqDto;
 import com.heng.reading.apiservice.comms.data.ResultData;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
-import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.BookProgressIndex;
 import com.heng.reading.apiservice.entity.GeneralReadingProgress;
 import com.heng.reading.apiservice.service.BookProgressIndexService;
@@ -82,6 +81,19 @@ public class GeneralReadingProgressController {
         IPage<GeneralReadingProgress> iPage = generalReadingProgressService.findReadingProgressesByBookId(bookId, page);
 
         return ResultData.success(iPage);
+    }
+
+    @ApiOperation("更新电子书阅读进度数据")
+    @PostMapping("update")
+    public ResultData<Object> updateReadingProgress(@RequestBody GeneralReadingProgress readingProgress) {
+
+        if (StringUtil.isNullOrEmpty(readingProgress.getId())) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        generalReadingProgressService.updateById(readingProgress);
+
+        return ResultData.success();
     }
 
     /**
