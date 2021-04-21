@@ -93,6 +93,11 @@ public class GeneralBookController {
         return ResultData.success(iPage);
     }
 
+    /**
+     * 查询指定用户5日内的最近阅读信息
+     * @param req accountId(必要) - 用户账号ID
+     * @return
+     */
     @ApiOperation("查询指定用户账号的最近5日阅读电子书信息")
     @PostMapping("list/recent")
     public ResultData<List<GeneralBookLatestReadingVO>> listLatestReadingBooksByAccountId(@RequestBody Map<String, String> req) {
