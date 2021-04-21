@@ -43,7 +43,9 @@ public class GeneralBookLatestReadingVO {
      * 阅读进度定位索引(ePub CFI 索引)
      */
     private String progressLocationIndex;
-
+    /**
+     * 最后阅读时间
+     */
     private String latestReadTime;
 
     private GeneralBookLatestReadingVO() {}
