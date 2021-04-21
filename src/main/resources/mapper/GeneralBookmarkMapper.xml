@@ -18,7 +18,7 @@
   <select id="queryBookmarksByBookId" resultMap="BaseResultMap" parameterType="java.lang.String">
     SELECT id, bookmark_title, bookmark_created_time, bookmark_location_index, bookmark_location_content
     FROM general_bookmark
-    WHERE id IN  (SELECT bookmark_id FROM book_bookmark_index WHERE book_id = #{bookId})
+    WHERE id IN  (SELECT bookmark_id FROM book_bookmark_index WHERE book_id = #{bookId}) ORDER BY bookmark_created_time DESC
   </select>
 
   <delete id="deleteByBookId" parameterType="java.lang.String">
