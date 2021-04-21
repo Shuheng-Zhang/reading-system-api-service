@@ -8,7 +8,9 @@ import com.heng.reading.apiservice.comms.data.ResultData;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
 import com.heng.reading.apiservice.entity.GeneralBook;
+import com.heng.reading.apiservice.entity.GeneralReadingProgress;
 import com.heng.reading.apiservice.service.*;
+import com.heng.reading.apiservice.vo.GeneralBookLatestReadingVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 电子书数据控制器
@@ -54,6 +59,9 @@ public class GeneralBookController {
     @Resource
     private RecentReadingBookIndexService recentReadingBookIndexService;
 
+    @Resource
+    private MessDataService messDataService;
+
     /**
      * 分页查询指定用户帐号的电子书信息
      * @param queryReqDto requests.accountId(必要) - 用户帐号ID, requests.title(可选) - 按标题查询, requests.authors(可选) - 按作者查询
@@ -83,6 +91,32 @@ public class GeneralBookController {
         }
 
         return ResultData.success(iPage);
+    }
+
+    @ApiOperation("查询指定用户账号的最近5日阅读电子书信息")
+    @PostMapping("list/recent")
+    public ResultData<List<GeneralBookLatestReadingVO>> listLatestReadingBooksByAccountId(@RequestBody Map<String, String> req) {
+
+        String accountId = req.get("accountId");
+        if (StringUtil.isNullOrEmpty(accountId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        List<GeneralBookLatestReadingVO> resultList = new ArrayList<>();
+
+        // 获取 阅读进度ID对应电子书ID索引
+        List<Map<String, String>> recentReadingIndexList = messDataService.findBookAndReadingProgressRelatedIndexesByAccountId(accountId);
+
+        // 获取实体信息
+        for (Map<String, String> recentReadingIndex:
+             recentReadingIndexList) {
+            GeneralBook book = generalBookService.getById(recentReadingIndex.get("bookId"));
+            GeneralReadingProgress readingProgress = generalReadingProgressService.getById(recentReadingIndex.get("progressId"));
+            GeneralBookLatestReadingVO vo = GeneralBookLatestReadingVO.getInstance(book, readingProgress);
+            resultList.add(vo);
+        }
+
+        return ResultData.success(resultList);
     }
 
     /**

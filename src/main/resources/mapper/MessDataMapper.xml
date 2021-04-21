@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.heng.reading.apiservice.mapper.MessDataMapper">
+
+    <select id="queryBookAndReadingProgressRelatedIndexesByAccountId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT book_id as bookId,
+               progress_id as progressId,
+               progress_created_time
+        FROM (
+                     SELECT abi.book_id     as book_id,
+                            bpi.progress_id as progress_id
+                     FROM account_book_index abi
+                                  INNER JOIN book_progress_index bpi ON
+                             abi.book_id = bpi.book_id
+                     WHERE abi.account_id = #{accountId}) res
+                     LEFT JOIN general_reading_progress grp ON
+                res.progress_id = grp.id
+        ORDER BY progress_created_time DESC
+        LIMIT 5
+    </select>
+
+</mapper>
