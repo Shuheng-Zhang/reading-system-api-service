@@ -11,6 +11,7 @@ import com.heng.reading.apiservice.entity.GeneralBook;
 import com.heng.reading.apiservice.entity.GeneralReadingProgress;
 import com.heng.reading.apiservice.service.*;
 import com.heng.reading.apiservice.vo.GeneralBookLatestReadingVO;
+import com.heng.reading.apiservice.vo.GeneralBookSimpleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -122,6 +123,20 @@ public class GeneralBookController {
         }
 
         return ResultData.success(resultList);
+    }
+
+    @ApiOperation("查询指定用户账号包含书签的电子书信息")
+    @PostMapping("list/bookmarkContained")
+    public ResultData<Object> listBookmarksContainedBookListByAccountId(@RequestBody PageQueryReqDto<String> reqDto) {
+        String accountId = reqDto.getReqParam("accountId");
+        if (StringUtil.isNullOrEmpty(accountId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        Page<GeneralBookSimpleVO> page = new Page<>(reqDto.getCurrentPage(), reqDto.getLimit());
+
+        IPage<GeneralBookSimpleVO> iPage = messDataService.findBookmarkContainedBookIdByAccountId(accountId, page);
+        return ResultData.success(iPage);
     }
 
     /**

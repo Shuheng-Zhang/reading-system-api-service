@@ -1,5 +1,9 @@
 package com.heng.reading.apiservice.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.heng.reading.apiservice.vo.GeneralBookSimpleVO;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,4 +15,12 @@ public interface MessDataService {
      * @return
      */
     List<Map<String, String>> findBookAndReadingProgressRelatedIndexesByAccountId(String accountId);
+
+    /**
+     * 查询 指定用户账号已添加书签的电子书ID列表
+     * @param accountId 用户账号ID
+     * @param page
+     * @return
+     */
+    IPage<GeneralBookSimpleVO> findBookmarkContainedBookIdByAccountId(String accountId, Page<GeneralBookSimpleVO> page);
 }

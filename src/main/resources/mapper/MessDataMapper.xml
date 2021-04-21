@@ -20,4 +20,8 @@
         LIMIT 5
     </select>
 
+    <select id="queryBookmarkContainedBookInfoByAccountId" parameterType="java.lang.String" resultType="com.heng.reading.apiservice.vo.GeneralBookSimpleVO">
+        SELECT gb.id as bookId, gb.book_title, gb.book_authors, gb.book_cover_url, gb.book_file_url FROM general_book gb WHERE gb.id IN (SELECT DISTINCT bbi.book_id  FROM book_bookmark_index bbi INNER JOIN account_book_index abi ON abi.book_id = bbi.book_id WHERE abi.account_id = #{accountId} )
+    </select>
+
 </mapper>
