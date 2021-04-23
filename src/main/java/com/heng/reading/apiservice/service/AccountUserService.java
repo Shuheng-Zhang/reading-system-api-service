@@ -16,6 +16,12 @@ public interface AccountUserService extends IService<AccountUser> {
     AccountUser configAccountUser(AccountUser accountUser);
 
     /**
+     * 创建系统根账号
+     * @return 根账号信息
+     */
+    boolean createRootAccount(String password);
+
+    /**
      * 检查用户帐号是否存在
      * @param accountId 用户帐号ID
      * @exception com.heng.reading.apiservice.comms.exception.BusinessException 用户帐号不存在

@@ -42,7 +42,7 @@ public class AccountUserController {
      */
     @ApiOperation("创建根账号")
     @PostMapping("root/create")
-    public ResultData<Object> createRootConfig(@RequestBody Map<String, String> req) {
+    public ResultData<?> createRootConfig(@RequestBody Map<String, String> req) {
 
         try {
             accountUserService.checkRootAccountExisted();
@@ -52,15 +52,12 @@ public class AccountUserController {
                 throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
             }
 
-            AccountUser root = new AccountUser();
-            root.setUserName("root");
-            root.setUserType("root");
-            root.setUserCertification(password);
-            root.setId(UUIDUtil.uuid());
-
-            accountUserService.save(root);
-
-            return ResultData.success();
+            boolean res = accountUserService.createRootAccount(password);
+            if (res) {
+                return ResultData.success();
+            } else {
+                return ResultData.sysFail(CommCodeMsg.MSG_SYS_ERR);
+            }
         }
 
         return ResultData.terminatedFail("Root Account Already Done");

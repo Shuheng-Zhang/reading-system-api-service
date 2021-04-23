@@ -26,6 +26,17 @@ public class AccountUserServiceImpl extends ServiceImpl<AccountUserMapper, Accou
     @Resource
     private AccountUserMapper accountUserMapper;
 
+    @Override
+    public boolean createRootAccount(String password) {
+        AccountUser root = new AccountUser();
+        root.setUserName("root");
+        root.setUserType("root");
+        root.setUserCertification(password);
+        root.setId(UUIDUtil.uuid());
+
+        return this.save(root);
+
+    }
 
     @Override
     public AccountUser configAccountUser(AccountUser accountUser) {
