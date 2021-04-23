@@ -5,6 +5,7 @@ import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.FileUtils;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
+import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.AccountUser;
 import com.heng.reading.apiservice.mapper.AccountUserMapper;
 import com.heng.reading.apiservice.service.AccountUserService;
@@ -25,11 +26,26 @@ public class AccountUserServiceImpl extends ServiceImpl<AccountUserMapper, Accou
     @Resource
     private AccountUserMapper accountUserMapper;
 
+
+    @Override
+    public AccountUser configAccountUser(AccountUser accountUser) {
+        accountUser.setId(UUIDUtil.uuid());
+        return accountUser;
+    }
+
     @Override
     public void checkAccountExist(String accountId) throws BusinessException {
         Integer res = accountUserMapper.checkAccountUserExist(accountId);
 
         // 返回值为 0，说明帐号不存在
+        if (res == 0) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_OBJ_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void checkRootAccountExisted() {
+        Integer res = accountUserMapper.checkRootAccountExisted();
         if (res == 0) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_OBJ_NOT_FOUND);
         }

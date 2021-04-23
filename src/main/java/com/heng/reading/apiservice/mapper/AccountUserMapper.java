@@ -14,4 +14,10 @@ public interface AccountUserMapper extends BaseMapper<AccountUser> {
      * @return
      */
     Integer checkAccountUserExist(String accountId);
+
+    /**
+     * 检查系统根用户是否存在
+     * @return
+     */
+    Integer checkRootAccountExisted();
 }
