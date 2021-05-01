@@ -70,7 +70,6 @@ public class EpubParseUtils {
         return resMap;
     }
 
-
     /**
      * 获取 ePub 封面并另存为
      * @param epubBook ePub Book 对象
@@ -103,6 +102,20 @@ public class EpubParseUtils {
         FileUtils.writeByteArrayToFile(coverFile, coverImgResource.getData());
 
         return coverFile.getName();
+    }
+
+
+    /**
+     * 获取 ePub OPF 资源索引文件
+     * @param epubBook ePub Book 对象
+     * @return OPF 资源索引文件相对路径
+     */
+    public static String getBookOpfHref(Book epubBook) {
+        Resource opfResource = epubBook.getOpfResource();
+        if (opfResource == null) {
+            return null;
+        }
+        return opfResource.getHref();
     }
 
     /**

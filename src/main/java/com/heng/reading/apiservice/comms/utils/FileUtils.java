@@ -3,6 +3,8 @@ package com.heng.reading.apiservice.comms.utils;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.enums.FileMimeType;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -28,6 +30,31 @@ public class FileUtils {
         return mimeType.getContentType().equals(file.getContentType());
     }
 
+    /**
+     * 检查指定文件是否存在
+     * @param filePath 文件路径
+     * @return true-文件存在, false-文件不存在
+     */
+    public static boolean checkFileExisted(String filePath) {
+        File file = new File(filePath);
+        return file.isFile() && file.exists();
+    }
+
+    /**
+     *
+     * @param src 源压缩文件
+     * @param outputDestDirPath 解压缩存储目录路径
+     * @throws ZipException
+     */
+    public static void unzip(String src, String outputDestDirPath) throws ZipException {
+
+        // 检查并创建解压存储目录
+        File dest = new File(outputDestDirPath);
+        if (!dest.exists()) {
+            dest.mkdirs();
+        }
+        new ZipFile(src).extractAll(outputDestDirPath);
+    }
 
     /**
      * 检查指定目录是否存在
@@ -107,5 +134,34 @@ public class FileUtils {
         }
 
         return isDeleted;
+    }
+
+    /**
+     * 删除指定路径目录
+     * @param dirPath 目录路径
+     */
+    public static boolean deleteDirectory(String dirPath) {
+        File dir = new File(dirPath);
+        if (!dir.exists()) {
+            return false;
+        }
+        if (!dir.isDirectory()) {
+            return false;
+        }
+
+        File[] subList = dir.listFiles();
+        if (subList != null) {
+            for (File f : subList) {
+                if (f.isDirectory()) {
+                    deleteDirectory(f.getAbsolutePath());
+                } else {
+                    f.delete();
+                }
+            }
+        }
+
+        dir.delete();
+
+        return true;
     }
 }

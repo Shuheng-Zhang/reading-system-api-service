@@ -159,12 +159,12 @@ public class GeneralBookController {
             generalReadingProgressService.deleteReadingProgressesByBookId(bookId);
             generalReadingConfigService.deleteReadingConfigByBookId(bookId);
 
-            // 删除电子书关联索引信息（关联的用户帐号、书签ID、阅读进度ID、阅读配置ID、最近阅读ID）
+            // 删除电子书关联索引信息（关联的用户帐号、书签ID、阅读进度ID、阅读配置ID）
             accountBookIndexService.deleteByBookId(bookId);
             bookBookmarkIndexService.deleteByBookId(bookId);
             bookProgressIndexService.deleteByBookId(bookId);
             bookConfigIndexService.deleteByBookId(bookId);
-            recentReadingBookIndexService.deleteByBookId(bookId);
+//            recentReadingBookIndexService.deleteByBookId(bookId);
         }
 
         return ResultData.success();

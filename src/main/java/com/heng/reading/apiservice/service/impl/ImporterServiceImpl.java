@@ -45,9 +45,21 @@ public class ImporterServiceImpl implements ImporterService {
 
     @Override
     public void checkUserDir(String accountId) {
-        boolean res = FileUtils.createDir(accountDataDirRoot + "/" + accountId);
-        if (res) {
+        boolean resAccountRootDir = FileUtils.createDir(accountDataDirRoot + "/" + accountId);
+        boolean resAccountEpubDir = FileUtils.createDir(accountDataDirRoot + "/" + accountId + "/epub");
+        boolean resAccountCoverDir = FileUtils.createDir(accountDataDirRoot + "/" + accountId + "/covers");
+        boolean resAccountUnpackedDir = FileUtils.createDir(accountDataDirRoot + "/" + accountId + "/unpack");
+        if (resAccountRootDir) {
             log.warn("Created User Directory: {}", accountId);
+        }
+        if (resAccountEpubDir) {
+            log.warn("Created User Directory: {}", accountId + "/epub");
+        }
+        if (resAccountCoverDir) {
+            log.warn("Created User Directory: {}", accountId + "/covers");
+        }
+        if (resAccountUnpackedDir) {
+            log.warn("Created User Directory: {}", accountId + "/unpack");
         }
     }
 
@@ -82,7 +94,7 @@ public class ImporterServiceImpl implements ImporterService {
             return null;
         }
 
-        String path = "/" + accountId + "/" + UUIDUtil.uuid() + extName;
+        String path = "/" + accountId + "/epub/"  + UUIDUtil.uuid() + extName;
         String destFilePath = accountDataDirRoot + path;;
         File dest = new File(destFilePath);
         FileUtils.transFile2Dest(file, dest);

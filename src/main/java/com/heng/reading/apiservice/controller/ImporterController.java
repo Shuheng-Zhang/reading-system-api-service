@@ -5,7 +5,6 @@ import com.heng.reading.apiservice.comms.data.ResultData;
 import com.heng.reading.apiservice.comms.enums.FileMimeType;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
-import com.heng.reading.apiservice.comms.utils.UUIDUtil;
 import com.heng.reading.apiservice.entity.AccountBookIndex;
 import com.heng.reading.apiservice.entity.GeneralBook;
 import com.heng.reading.apiservice.service.*;
@@ -80,20 +79,42 @@ public class ImporterController {
         // 处理 ePub 解析
         for (String bookPath : storedFileList) {
 
-            long bookSize = 0;
             File bookFile = new File(accountDataDirRoot + bookPath);
-            if (bookFile.exists()) {
-                bookSize = FileUtils.sizeOf(bookFile);
+            if (!bookFile.exists()) {
+                throw new BusinessException(CommCodeMsg.CODE_SYS_ERR, CommCodeMsg.MSG_OBJ_NOT_FOUND);
             }
 
+            // 解压缩 ePub
+            String bookFileName = bookFile.getName();
+            String bookUnzipDirName = bookFileName.replaceAll("\\.epub", "");
+            String destUnzipDirPath = "/" + accountId + "/unpack/" + bookUnzipDirName;
+            bookFileParseService.ePubUnzip(accountDataDirRoot + bookPath, accountDataDirRoot + destUnzipDirPath);
+
+            // 获取解压缩容量
+            File unzippedDir = new File(accountDataDirRoot + destUnzipDirPath);
+            if (!unzippedDir.exists()) {
+                throw new BusinessException(CommCodeMsg.CODE_SYS_ERR, CommCodeMsg.MSG_SYS_ERR);
+            }
+            long unzipBookSize = FileUtils.sizeOf(unzippedDir);
+
             Book epubBook = bookFileParseService.loadEpub(accountDataDirRoot + bookPath);
+
+            // 获取 ePub OPF 相对地址
+            String bookOpfUrl = bookFileParseService.fetchOpfHref(epubBook, accountId, bookUnzipDirName);
+
             // 解析 ePub 文件以获取元数据
             Map<String, String> metadata = bookFileParseService.fetchMetadata(epubBook);
             // 解析 ePub 文件以获取封面并存入
             String coverFileName = bookFileParseService.fetchBookCover(epubBook, accountId);
 
             // 将 ePub 元数据及封面文件URL写入到数据库（GeneralBook）
-            GeneralBook book = generalBookService.config(metadata, coverFileName, bookPath, StringUtil.storageUnitConvert(bookSize), StringUtil.getCurrentTime());
+            GeneralBook book = generalBookService.config(
+                    metadata,
+                    coverFileName,
+                    bookPath, bookOpfUrl, destUnzipDirPath,
+                    StringUtil.storageUnitConvert(unzipBookSize),
+                    StringUtil.getCurrentTime()
+            );
 
             // 建立 GeneralBook 信息与用户帐号的关联索引（AccountBookIndex）
             AccountBookIndex accountBookIndex = accountBookIndexService.config(accountId, book.getId());

@@ -59,4 +59,13 @@ public class GeneralBook {
      */
     @TableField(value = "book_file_url")
     private String bookFileUrl;
+
+    /**
+     * 电子书 OPF 文件URL
+     */
+    @TableField(value = "book_opf_url")
+    private String bookOpfUrl;
+
+    @TableField(value = "book_unpacked_dir_url")
+    private String bookUnpackedDirUrl;
 }

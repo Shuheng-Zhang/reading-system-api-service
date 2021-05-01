@@ -47,6 +47,7 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
         if (book != null) {
             String bookPath = bookResourcePath(book.getBookFileUrl());
             String coverPath = bookResourcePath(book.getBookCoverUrl());
+            String unpackDirPath = bookResourcePath(book.getBookUnpackedDirUrl());
 
             // 删除电子书文件
             if (bookPath != null) {
@@ -60,6 +61,12 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
                 boolean res = FileUtils.deleteFile(coverPath);
                 if (res) {
                     log.warn("Deleted eBook Cover: {}", coverPath);
+                }
+            }
+            if (unpackDirPath != null) {
+                boolean res = FileUtils.deleteDirectory(unpackDirPath);
+                if (res) {
+                    log.warn("Deleted eBook Unpacked: {}", unpackDirPath);
                 }
             }
 
@@ -79,7 +86,9 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
     }
 
     @Override
-    public GeneralBook config(String bookTitle, String bookAuthors, String bookDescription, String bookCoverUrl, String bookFileUrl, String bookSize, String bookPushedTime) {
+    public GeneralBook config(String bookTitle, String bookAuthors, String bookDescription,
+                              String bookCoverUrl, String bookFileUrl, String bookOpfUrl, String unpackedDirPath,
+                              String bookSize, String bookPushedTime) {
 
         GeneralBook book = new GeneralBook();
         book.setId(UUIDUtil.uuid());
@@ -89,13 +98,15 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
         book.setBookSize(bookSize);
         book.setBookCoverUrl(bookCoverUrl);
         book.setBookFileUrl(bookFileUrl);
+        book.setBookOpfUrl(bookOpfUrl);
+        book.setBookUnpackedDirUrl(unpackedDirPath);
         book.setBookPushedTime(bookPushedTime);
 
         return book;
     }
 
     @Override
-    public GeneralBook config(Map<String, String> metadata, String bookCoverUrl, String bookFileUrl, String bookSize, String bookPushedTime) {
+    public GeneralBook config(Map<String, String> metadata, String bookCoverUrl, String bookFileUrl, String bookOpfUrl, String unpackedDirPath, String bookSize, String bookPushedTime) {
 
         GeneralBook book = new GeneralBook();
         book.setId(UUIDUtil.uuid());
@@ -108,6 +119,8 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
         book.setBookSize(bookSize);
         book.setBookCoverUrl(bookCoverUrl);
         book.setBookFileUrl(bookFileUrl);
+        book.setBookOpfUrl(bookOpfUrl);
+        book.setBookUnpackedDirUrl(unpackedDirPath);
         book.setBookPushedTime(bookPushedTime);
         return book;
     }

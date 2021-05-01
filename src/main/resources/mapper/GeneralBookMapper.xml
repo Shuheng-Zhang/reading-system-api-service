@@ -12,15 +12,17 @@
     <result column="book_size" jdbcType="VARCHAR" property="bookSize" />
     <result column="book_pushed_time" jdbcType="VARCHAR" property="bookPushedTime" />
     <result column="book_file_url" jdbcType="VARCHAR" property="bookFileUrl" />
+    <result column="book_opf_url" jdbcType="VARCHAR" property="bookOpfUrl" />
+    <result column="book_unpacked_dir_url" jdbcType="VARCHAR" property="bookUnpackedDirUrl" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, book_title, book_authors, book_description, book_cover_url, book_size, book_pushed_time, 
-    book_file_url
+    book_file_url, book_opf_url, book_unpacked_dir_url
   </sql>
 
   <select id="queryBooksByAccountId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url
+    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url, book_opf_url, book_unpacked_dir_url
     FROM general_book WHERE id in (
         SELECT book_id FROM account_book_index WHERE account_id = #{accountId}
     )

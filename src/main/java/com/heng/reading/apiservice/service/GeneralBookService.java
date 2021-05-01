@@ -48,21 +48,27 @@ public interface GeneralBookService extends IService<GeneralBook> {
      * @param bookAuthors 电子书作者
      * @param bookDescription 电子书简介
      * @param bookCoverUrl 封面 URL
+     * @param bookOpfUrl OPF 资源索引文件URL
+     * @param unpackedDirPath 解压缩目录URL
      * @param bookFileUrl 电子书文件 URL
      * @param bookSize 电子书文件容量
      * @param bookPushedTime 电子书收录时间
      * @return
      */
-    GeneralBook config(String bookTitle, String bookAuthors, String bookDescription, String bookCoverUrl, String bookFileUrl, String bookSize, String bookPushedTime);
+    GeneralBook config(String bookTitle, String bookAuthors, String bookDescription,
+                       String bookCoverUrl, String bookFileUrl, String bookOpfUrl, String unpackedDirPath,
+                       String bookSize, String bookPushedTime);
 
     /**
      * 配置 电子书信息
      * @param metadata 电子书元数据(标题、作者、简介)
      * @param bookCoverUrl 封面 URL
      * @param bookFileUrl 电子书文件 URL
+     * @param bookOpfUrl OPF 资源索引文件URL
+     * @param unpackedDirPath 解压缩目录URL
      * @param bookSize 电子书文件容量
      * @param bookPushedTime 电子书收录时间
      * @return
      */
-    GeneralBook config(Map<String, String> metadata, String bookCoverUrl, String bookFileUrl, String bookSize, String bookPushedTime);
+    GeneralBook config(Map<String, String> metadata, String bookCoverUrl, String bookFileUrl, String bookOpfUrl, String unpackedDirPath, String bookSize, String bookPushedTime);
 }
