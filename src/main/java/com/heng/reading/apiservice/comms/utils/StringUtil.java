@@ -37,7 +37,7 @@ public class StringUtil {
      * @return true - 空，false - 不为空
      */
     public static boolean isNullOrEmpty(String str) {
-        return str == null || "".equals(str);
+        return str == null || "".equals(str.trim());
     }
 
     /**
