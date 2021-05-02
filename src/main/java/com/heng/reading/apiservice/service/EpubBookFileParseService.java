@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author heng
  */
-public interface BookFileParseService {
+public interface EpubBookFileParseService {
 
     /**
      * 加载 ePub 文件
@@ -27,7 +27,7 @@ public interface BookFileParseService {
      * @param unzipDirName 解压缩目录名
      * @return ePub OPF 相对路径
      */
-    String fetchOpfHref(Book epubBook, String accountId, String unzipDirName);
+    String fetchOpfUrl(Book epubBook, String accountId, String unzipDirName);
 
     /**
      * 获取 ePub 元数据

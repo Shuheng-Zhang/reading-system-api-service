@@ -38,7 +38,7 @@ public class ImporterController {
     private ImporterService importerService;
 
     @Resource
-    private BookFileParseService bookFileParseService;
+    private EpubBookFileParseService epubBookFileParseService;
 
     @Resource
     private GeneralBookService generalBookService;
@@ -88,7 +88,7 @@ public class ImporterController {
             String bookFileName = bookFile.getName();
             String bookUnzipDirName = bookFileName.replaceAll("\\.epub", "");
             String destUnzipDirPath = "/" + accountId + "/unpack/" + bookUnzipDirName;
-            bookFileParseService.ePubUnzip(accountDataDirRoot + bookPath, accountDataDirRoot + destUnzipDirPath);
+            epubBookFileParseService.ePubUnzip(accountDataDirRoot + bookPath, accountDataDirRoot + destUnzipDirPath);
 
             // 获取解压缩容量
             File unzippedDir = new File(accountDataDirRoot + destUnzipDirPath);
@@ -97,15 +97,15 @@ public class ImporterController {
             }
             long unzipBookSize = FileUtils.sizeOf(unzippedDir);
 
-            Book epubBook = bookFileParseService.loadEpub(accountDataDirRoot + bookPath);
+            Book epubBook = epubBookFileParseService.loadEpub(accountDataDirRoot + bookPath);
 
             // 获取 ePub OPF 相对地址
-            String bookOpfUrl = bookFileParseService.fetchOpfHref(epubBook, accountId, bookUnzipDirName);
+            String bookOpfUrl = epubBookFileParseService.fetchOpfUrl(epubBook, accountId, bookUnzipDirName);
 
             // 解析 ePub 文件以获取元数据
-            Map<String, String> metadata = bookFileParseService.fetchMetadata(epubBook);
+            Map<String, String> metadata = epubBookFileParseService.fetchMetadata(epubBook);
             // 解析 ePub 文件以获取封面并存入
-            String coverFileName = bookFileParseService.fetchBookCover(epubBook, accountId);
+            String coverFileName = epubBookFileParseService.fetchBookCover(epubBook, accountId);
 
             // 将 ePub 元数据及封面文件URL写入到数据库（GeneralBook）
             GeneralBook book = generalBookService.config(

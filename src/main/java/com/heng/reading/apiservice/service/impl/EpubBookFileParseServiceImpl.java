@@ -4,7 +4,7 @@ import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.EpubParseUtils;
 import com.heng.reading.apiservice.comms.utils.FileUtils;
-import com.heng.reading.apiservice.service.BookFileParseService;
+import com.heng.reading.apiservice.service.EpubBookFileParseService;
 import net.lingala.zip4j.exception.ZipException;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @author heng
  */
 @Service
-public class BookFileParseServiceImpl implements BookFileParseService {
+public class EpubBookFileParseServiceImpl implements EpubBookFileParseService {
 
     @Value("${extendStorage.accountDataDirRoot}")
     private String accountDataDirRoot;
@@ -29,7 +29,7 @@ public class BookFileParseServiceImpl implements BookFileParseService {
     }
 
     @Override
-    public String fetchOpfHref(Book epubBook, String accountId, String unzipDirName) {
+    public String fetchOpfUrl(Book epubBook, String accountId, String unzipDirName) {
 
         if (epubBook == null) {
             return null;
