@@ -41,7 +41,17 @@ public class FileUtils {
     }
 
     /**
-     *
+     * 检查指定目录是否存在
+     * @param dirPath 目录路径
+     * @return true-目录存在, false-目录不存在
+     */
+    public static boolean checkDirectoryExisted(String dirPath) {
+        File dir = new File(dirPath);
+        return dir.isDirectory() && dir.exists();
+    }
+
+    /**
+     * Zip 解压缩
      * @param src 源压缩文件
      * @param outputDestDirPath 解压缩存储目录路径
      * @throws ZipException
@@ -54,16 +64,6 @@ public class FileUtils {
             dest.mkdirs();
         }
         new ZipFile(src).extractAll(outputDestDirPath);
-    }
-
-    /**
-     * 检查指定目录是否存在
-     * @param dirPath 目录路径
-     * @return true-目录存在, false-目录不存在
-     */
-    public static boolean checkDirectoryExisted(String dirPath) {
-        File dir = new File(dirPath);
-        return dir.isDirectory() && dir.exists();
     }
 
     /**
