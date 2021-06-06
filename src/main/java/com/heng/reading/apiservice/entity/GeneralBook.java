@@ -37,12 +37,6 @@ public class GeneralBook {
     private String bookDescription;
 
     /**
-     * 电子书封面URL
-     */
-    @TableField(value = "book_cover_url")
-    private String bookCoverUrl;
-
-    /**
      * 电子书容量
      */
     @TableField(value = "book_size")
@@ -55,10 +49,10 @@ public class GeneralBook {
     private String bookPushedTime;
 
     /**
-     * 电子书文件URL
+     * 电子书封面URL
      */
-    @TableField(value = "book_file_url")
-    private String bookFileUrl;
+    @TableField(value = "book_cover_url")
+    private String bookCoverUrl;
 
     /**
      * 电子书 OPF 文件URL
@@ -66,6 +60,15 @@ public class GeneralBook {
     @TableField(value = "book_opf_url")
     private String bookOpfUrl;
 
+    /**
+     * 电子书文件URL
+     */
+    @TableField(value = "book_file_url")
+    private String bookFileUrl;
+
+    /**
+     * 电子书解压缩目录URL
+     */
     @TableField(value = "book_unpacked_dir_url")
     private String bookUnpackedDirUrl;
 }

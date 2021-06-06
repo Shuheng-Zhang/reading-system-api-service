@@ -1,7 +1,5 @@
 package com.heng.reading.apiservice.service;
 
-import com.heng.reading.apiservice.comms.exception.BusinessException;
-import net.lingala.zip4j.exception.ZipException;
 import nl.siegmann.epublib.domain.Book;
 
 import java.io.IOException;
@@ -18,7 +16,7 @@ public interface EpubBookFileParseService {
      * @return ePub Book 对象
      * @exception IOException
      */
-    Book loadEpub(String bookPath) throws IOException;
+    Book loadEpub(String bookPath);
 
     /**
      * 获取 ePub OPF 索引文件相对地址
@@ -43,12 +41,12 @@ public interface EpubBookFileParseService {
      * @return 封面图片URL
      * @exception IOException
      */
-    String fetchBookCover(Book epubBook, String accountId) throws IOException;
+    String fetchBookCover(Book epubBook, String accountId);
 
     /**
      * 解压缩 ePub 到指定路径
      * @param epubFilePath ePub 源文件路径
      * @param destPath 解压缩目标存储路径
      */
-    void ePubUnzip(String epubFilePath, String destPath) throws ZipException, BusinessException;
+    void ePubUnzip(String epubFilePath, String destPath);
 }

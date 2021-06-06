@@ -1,8 +1,7 @@
-package com.heng.reading.apiservice.vo;
+package com.heng.reading.apiservice.dto.book;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
-import com.heng.reading.apiservice.entity.GeneralBook;
-import com.heng.reading.apiservice.entity.GeneralReadingProgress;
+import com.heng.reading.apiservice.dto.progress.GeneralReadingProgressSimpleDto;
 import lombok.Data;
 
 /**
@@ -10,7 +9,7 @@ import lombok.Data;
  * @author heng
  */
 @Data
-public class GeneralBookLatestReadingVO {
+public class GeneralBookRecentReadingDto {
     /**
      * 电子书ID
      */
@@ -28,9 +27,9 @@ public class GeneralBookLatestReadingVO {
      */
     private String bookCoverUrl;
     /**
-     * 书目文件URL
+     * 电子书 OPF 文件URL
      */
-    private String bookFileUrl;
+    private String bookOpfUrl;
     /**
      * 阅读进度章节标题
      */
@@ -48,7 +47,7 @@ public class GeneralBookLatestReadingVO {
      */
     private String latestReadTime;
 
-    private GeneralBookLatestReadingVO() {}
+    private GeneralBookRecentReadingDto() {}
 
     /**
      * 创建 电子书-阅读进度 关联数据对象
@@ -56,18 +55,18 @@ public class GeneralBookLatestReadingVO {
      * @param readingProgressInfo 阅读进度信息实例
      * @return 关联数据对象
      */
-    public static GeneralBookLatestReadingVO getInstance(GeneralBook bookInfo, GeneralReadingProgress readingProgressInfo) {
+    public static GeneralBookRecentReadingDto getInstance(GeneralBookSimpleDto bookInfo, GeneralReadingProgressSimpleDto readingProgressInfo) {
         if (bookInfo == null || readingProgressInfo == null) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
         }
 
-        GeneralBookLatestReadingVO vo = new GeneralBookLatestReadingVO();
+        GeneralBookRecentReadingDto vo = new GeneralBookRecentReadingDto();
         vo.setBookId(bookInfo.getId());
         vo.setBookTitle(bookInfo.getBookTitle());
         vo.setBookAuthors(bookInfo.getBookAuthors());
         vo.setBookCoverUrl(bookInfo.getBookCoverUrl());
-        vo.setBookFileUrl(bookInfo.getBookFileUrl());
-        vo.setLatestReadTime(readingProgressInfo.getProgressCreatedTime());
+        vo.setBookOpfUrl(bookInfo.getBookOpfUrl());
+        vo.setLatestReadTime(readingProgressInfo.getProgressUpdatedTime());
         vo.setProgressLocationIndex(readingProgressInfo.getProgressLocationIndex());
         vo.setProgressPercentage(readingProgressInfo.getProgressPercentage());
         vo.setProgressTitle(readingProgressInfo.getProgressTitle());

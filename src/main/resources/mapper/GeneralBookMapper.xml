@@ -21,15 +21,28 @@
     book_file_url, book_opf_url, book_unpacked_dir_url
   </sql>
 
-  <select id="queryBooksByAccountId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url, book_opf_url, book_unpacked_dir_url
+  <select id="queryBookSimpleById" parameterType="java.lang.String" resultType="com.heng.reading.apiservice.dto.book.GeneralBookSimpleDto">
+    SELECT id, book_title, book_authors, book_cover_url, book_opf_url
+    FROM general_book
+    WHERE id = #{bookId}
+  </select>
+
+  <select id="queryBooksByAccountId" parameterType="java.lang.String" resultType="com.heng.reading.apiservice.dto.book.GeneralBookDto">
+    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url, book_opf_url
     FROM general_book WHERE id in (
         SELECT book_id FROM account_book_index WHERE account_id = #{accountId}
     )
   </select>
 
-  <select id="queryBookByAccountIdWithTitleLikeOrAuthorsLike" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url
+  <select id="queryBooksSimpleByAccountId" parameterType="java.lang.String" resultType="com.heng.reading.apiservice.dto.book.GeneralBookSimpleDto">
+    SELECT id, book_title, book_authors, book_cover_url, book_opf_url
+    FROM general_book WHERE id in (
+            SELECT book_id FROM account_book_index WHERE account_id = #{accountId}
+    )
+  </select>
+
+  <select id="queryBookByAccountIdWithTitleLikeOrAuthorsLike" parameterType="java.lang.String" resultType="com.heng.reading.apiservice.dto.book.GeneralBookDto">
+    SELECT id, book_title, book_authors, book_description, book_size, book_pushed_time, book_cover_url, book_file_url, book_opf_url
     FROM general_book
     WHERE id IN (SELECT book_id FROM account_book_index WHERE account_id = #{accountId})
     <if test='titleLike != null and titleLike != ""'>
@@ -40,7 +53,19 @@
     </if>
   </select>
 
-  <select id="checkBookExistedByBookId" resultType="java.lang.Integer">
+  <select id="queryBooksSimpleByAccountIdWithTitleLikeOrAuthorsLike" parameterType="java.lang.String" resultType="com.heng.reading.apiservice.dto.book.GeneralBookSimpleDto">
+    SELECT id, book_title, book_authors, book_cover_url, book_opf_url
+    FROM general_book
+    WHERE id IN (SELECT book_id FROM account_book_index WHERE account_id = #{accountId})
+    <if test='titleLike != null and titleLike != ""'>
+      AND book_title LIKE '%' #{titleLike} '%'
+    </if>
+    <if test='authorLike != null and authorLike != ""'>
+      AND book_authors LIKE '%' #{authorLike} '%'
+    </if>
+  </select>
+
+  <select id="checkBookExistedById" resultType="java.lang.Integer">
     SELECT COUNT(id) as res FROM general_book WHERE id = #{bookId} limit 1
   </select>
 </mapper>

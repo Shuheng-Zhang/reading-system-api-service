@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -58,7 +57,7 @@ public class ImporterController {
     @ApiOperation("导入 ePub 电子书")
     @PostMapping("epub/{accountId}")
     public ResultData<Object> epubBookImport(@PathVariable("accountId") String accountId,
-                                             @RequestParam("files") MultipartFile[] fileList) throws IOException {
+                                             @RequestParam("files") MultipartFile[] fileList) {
         if (fileList == null || fileList.length == 0) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
         }
@@ -71,15 +70,18 @@ public class ImporterController {
         // 处理用户目录
         importerService.checkUserDir(accountId);
         // 处理文件转存
-        ArrayList<String> storedFileList = new ArrayList<>();
+        ArrayList<String[]> storedFileList = new ArrayList<>();
         for (MultipartFile file : fileList) {
-            String path = importerService.transFile2Dest(file, FileMimeType.EPUB, accountId);
-            storedFileList.add(path);
+            String[] res = importerService.transFile2Dest(file, FileMimeType.EPUB, accountId);
+            if (res == null) {
+                continue;
+            }
+            storedFileList.add(res);
         }
         // 处理 ePub 解析
-        for (String bookPath : storedFileList) {
+        for (String[] bookInfo : storedFileList) {
 
-            File bookFile = new File(accountDataDirRoot + bookPath);
+            File bookFile = new File(accountDataDirRoot + bookInfo[1]);
             if (!bookFile.exists()) {
                 throw new BusinessException(CommCodeMsg.CODE_SYS_ERR, CommCodeMsg.MSG_OBJ_NOT_FOUND);
             }
@@ -88,7 +90,8 @@ public class ImporterController {
             String bookFileName = bookFile.getName();
             String bookUnzipDirName = bookFileName.replaceAll("\\.epub", "");
             String destUnzipDirPath = "/" + accountId + "/unpack/" + bookUnzipDirName;
-            epubBookFileParseService.ePubUnzip(accountDataDirRoot + bookPath, accountDataDirRoot + destUnzipDirPath);
+            epubBookFileParseService.ePubUnzip(accountDataDirRoot + bookInfo[1],
+                    accountDataDirRoot + destUnzipDirPath);
 
             // 获取解压缩容量
             File unzippedDir = new File(accountDataDirRoot + destUnzipDirPath);
@@ -97,7 +100,8 @@ public class ImporterController {
             }
             long unzipBookSize = FileUtils.sizeOf(unzippedDir);
 
-            Book epubBook = epubBookFileParseService.loadEpub(accountDataDirRoot + bookPath);
+            // 加载 ePub 文件
+            Book epubBook = epubBookFileParseService.loadEpub(accountDataDirRoot + bookInfo[1]);
 
             // 获取 ePub OPF 相对地址
             String bookOpfUrl = epubBookFileParseService.fetchOpfUrl(epubBook, accountId, bookUnzipDirName);
@@ -107,16 +111,22 @@ public class ImporterController {
             // 解析 ePub 文件以获取封面并存入
             String coverFileName = epubBookFileParseService.fetchBookCover(epubBook, accountId);
 
-            // 将 ePub 元数据及封面文件URL写入到数据库（GeneralBook）
+            // 创建 电子书数据对象
             GeneralBook book = generalBookService.config(
                     metadata,
                     coverFileName,
-                    bookPath, bookOpfUrl, destUnzipDirPath,
+                    bookInfo[1], bookOpfUrl, destUnzipDirPath,
                     StringUtil.storageUnitConvert(unzipBookSize),
                     StringUtil.getCurrentTime()
             );
 
-            // 建立 GeneralBook 信息与用户帐号的关联索引（AccountBookIndex）
+            // 处理 电子书标题为空/Untitled/未命名
+            String bookTitle = book.getBookTitle();
+            if (StringUtil.isNullOrEmpty(bookTitle) || "Untitled".equals(bookTitle) || "未命名".equals(bookTitle)) {
+                book.setBookTitle(bookInfo[0]);
+            }
+
+            // 建立 GeneralBook 信息与用户帐号的关联索引
             AccountBookIndex accountBookIndex = accountBookIndexService.config(accountId, book.getId());
 
             generalBookService.save(book);

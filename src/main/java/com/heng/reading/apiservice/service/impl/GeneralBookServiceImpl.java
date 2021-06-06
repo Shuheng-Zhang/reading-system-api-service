@@ -8,13 +8,22 @@ import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.FileUtils;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
 import com.heng.reading.apiservice.comms.utils.UUIDUtil;
+import com.heng.reading.apiservice.dto.book.GeneralBookDto;
+import com.heng.reading.apiservice.dto.book.GeneralBookRecentReadingDto;
+import com.heng.reading.apiservice.dto.book.GeneralBookSimpleDto;
+import com.heng.reading.apiservice.dto.progress.BookProgressIndexDto;
+import com.heng.reading.apiservice.dto.progress.GeneralReadingProgressSimpleDto;
 import com.heng.reading.apiservice.entity.GeneralBook;
 import com.heng.reading.apiservice.mapper.GeneralBookMapper;
+import com.heng.reading.apiservice.mapper.GeneralReadingProgressMapper;
 import com.heng.reading.apiservice.service.GeneralBookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,23 +31,55 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, GeneralBook> implements GeneralBookService{
+public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, GeneralBook> implements GeneralBookService {
 
     @Value("${extendStorage.accountDataDirRoot}")
     private String accountDataDirRoot;
 
+    @Resource
+    private GeneralReadingProgressMapper generalReadingProgressMapper;
+
     @Override
-    public IPage<GeneralBook> findBooksByAccountId(String accountId, Page<GeneralBook> page) {
+    public IPage<GeneralBookDto> findBooksByAccountId(String accountId, Page<GeneralBookDto> page) {
         return this.baseMapper.queryBooksByAccountId(accountId, page);
     }
 
     @Override
-    public IPage<GeneralBook> findBooksByAccountId(String accountId, String bookTitleLike, String bookAuthorsLike, Page<GeneralBook> page) {
+    public IPage<GeneralBookSimpleDto> findBooksSimpleByAccountId(String accountId, Page<GeneralBookSimpleDto> page) {
+        return this.baseMapper.queryBooksSimpleByAccountId(accountId, page);
+    }
+
+    @Override
+    public IPage<GeneralBookDto> findBooksByAccountId(String accountId, String bookTitleLike, String bookAuthorsLike, Page<GeneralBookDto> page) {
         return this.baseMapper.queryBookByAccountIdWithTitleLikeOrAuthorsLike(accountId, bookTitleLike, bookAuthorsLike, page);
     }
 
     @Override
-    public void removeBookByBookId(String bookId) throws BusinessException {
+    public IPage<GeneralBookSimpleDto> findBookSimpleByAccountId(String accountId, String bookTitleLike, String bookAuthorsLike, Page<GeneralBookSimpleDto> page) {
+        return this.baseMapper.queryBooksSimpleByAccountIdWithTitleLikeOrAuthorsLike(accountId, bookTitleLike, bookAuthorsLike, page);
+    }
+
+    @Override
+    public List<GeneralBookRecentReadingDto> findRecentReadingBooks(List<BookProgressIndexDto> indexDtoList) {
+
+        if (indexDtoList == null || indexDtoList.isEmpty()) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+
+        List<GeneralBookRecentReadingDto> recentReadingDtoList = new ArrayList<>();
+        for (BookProgressIndexDto dto : indexDtoList) {
+            GeneralBookSimpleDto generalBookSimpleDto = this.baseMapper.queryBookSimpleById(dto.getBookId());
+            GeneralReadingProgressSimpleDto generalReadingProgressSimpleDto = generalReadingProgressMapper.queryReadingProgressById(dto.getProgressId());
+            GeneralBookRecentReadingDto recentReadingDto = GeneralBookRecentReadingDto.getInstance(generalBookSimpleDto, generalReadingProgressSimpleDto);
+
+            recentReadingDtoList.add(recentReadingDto);
+        }
+
+        return recentReadingDtoList;
+    }
+
+    @Override
+    public void deleteBookByBookId(String bookId) throws BusinessException {
 
         // 查询电子书信息对象
         // 获取电子书文件URL
@@ -63,6 +104,7 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
                     log.warn("Deleted eBook Cover: {}", coverPath);
                 }
             }
+            // 删除解压缩目录
             if (unpackDirPath != null) {
                 boolean res = FileUtils.deleteDirectory(unpackDirPath);
                 if (res) {
@@ -79,7 +121,7 @@ public class GeneralBookServiceImpl extends ServiceImpl<GeneralBookMapper, Gener
 
     @Override
     public void checkBookExisted(String bookId) throws BusinessException {
-        Integer res = this.baseMapper.checkBookExistedByBookId(bookId);
+        Integer res = this.baseMapper.checkBookExistedById(bookId);
         if (res == 0) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_OBJ_NOT_FOUND);
         }

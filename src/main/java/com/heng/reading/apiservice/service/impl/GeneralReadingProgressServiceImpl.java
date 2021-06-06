@@ -35,7 +35,7 @@ public class GeneralReadingProgressServiceImpl extends ServiceImpl<GeneralReadin
     public GeneralReadingProgress config(GeneralReadingProgress readingProgress) {
 
         readingProgress.setId(UUIDUtil.uuid());
-        readingProgress.setProgressCreatedTime(StringUtil.getCurrentTime());
+        readingProgress.setProgressUpdatedTime(StringUtil.getCurrentTime());
 
         return readingProgress;
     }

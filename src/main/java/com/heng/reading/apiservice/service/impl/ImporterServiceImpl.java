@@ -64,7 +64,7 @@ public class ImporterServiceImpl implements ImporterService {
     }
 
     @Override
-    public String transFile2Dest(MultipartFile file, FileMimeType mimeType, String accountId) throws IOException {
+    public String[] transFile2Dest(MultipartFile file, FileMimeType mimeType, String accountId) {
 
         if (file == null || file.isEmpty()) {
             return null;
@@ -94,11 +94,16 @@ public class ImporterServiceImpl implements ImporterService {
             return null;
         }
 
+        String originName = file.getOriginalFilename();
         String path = "/" + accountId + "/epub/"  + UUIDUtil.uuid() + extName;
         String destFilePath = accountDataDirRoot + path;;
         File dest = new File(destFilePath);
-        FileUtils.transFile2Dest(file, dest);
+        try {
+            FileUtils.transFile2Dest(file, dest);
+        } catch (IOException e) {
+            throw new BusinessException(CommCodeMsg.CODE_SYS_ERR, CommCodeMsg.MSG_SYS_ERR);
+        }
 
-        return path;
+        return new String[] {originName, path};
     }
 }

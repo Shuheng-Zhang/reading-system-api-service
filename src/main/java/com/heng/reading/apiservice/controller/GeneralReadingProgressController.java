@@ -1,6 +1,7 @@
 package com.heng.reading.apiservice.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.data.PageQueryReqDto;
@@ -91,6 +92,15 @@ public class GeneralReadingProgressController {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
         }
 
+        String newUpdatedTime = StringUtil.getCurrentTime();
+
+        // 更新索引时间
+        bookProgressIndexService.lambdaUpdate()
+                .eq(BookProgressIndex::getProgressId, readingProgress.getId())
+                .set(BookProgressIndex::getUpdatedTime, newUpdatedTime)
+                .update();
+
+        readingProgress.setProgressUpdatedTime(newUpdatedTime);
         generalReadingProgressService.updateById(readingProgress);
 
         return ResultData.success();

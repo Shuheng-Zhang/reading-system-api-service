@@ -29,4 +29,10 @@ public class BookProgressIndex {
      */
     @TableField(value = "progress_id")
     private String progressId;
+
+    /**
+     * 索引更新时间
+     */
+    @TableField(value = "updated_time")
+    private String updatedTime;
 }

@@ -7,11 +7,16 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="book_id" jdbcType="VARCHAR" property="bookId" />
     <result column="progress_id" jdbcType="VARCHAR" property="progressId" />
+    <result column="updated_time" jdbcType="VARCHAR" property="updatedTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, book_id, progress_id
+    id, book_id, progress_id, updated_time
   </sql>
+
+  <select id="queryRecentReadingProgressIndex" parameterType="java.lang.String" resultType="com.heng.reading.apiservice.dto.progress.BookProgressIndexDto">
+    SELECT bpi.book_id, bpi.progress_id FROM book_progress_index bpi WHERE book_id IN (SELECT book_id FROM account_book_index abi WHERE abi.account_id = #{accountId}) ORDER BY bpi.updated_time DESC LIMIT 5
+  </select>
 
   <delete id="deleteByProgressId" parameterType="java.lang.String">
     DELETE FROM book_progress_index WHERE progress_id = #{progressId}

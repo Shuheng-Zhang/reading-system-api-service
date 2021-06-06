@@ -83,9 +83,7 @@ public class GeneralBookmarkController {
 
         Integer currentPage = queryReqDto.getCurrentPage();;
         Integer limit = queryReqDto.getLimit();
-
         Page<GeneralBookmark> page = new Page<>(currentPage, limit);
-
         IPage<GeneralBookmark> iPage = generalBookmarkService.findBookmarksByBookId(bookId, page);
 
         return ResultData.success(iPage);

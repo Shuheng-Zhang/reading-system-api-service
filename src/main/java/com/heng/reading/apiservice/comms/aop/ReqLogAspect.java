@@ -6,6 +6,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -41,20 +42,17 @@ public class ReqLogAspect {
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
 
-/*
-        String reqUrl = request.getRequestURL().toString();
-*/
         String reqMethod = request.getMethod();
         String reqUri = request.getRequestURI();
         String queryString = request.getQueryString();
         String params = "";
 
-        if ("POST".equals(reqMethod)) {
+        Map<?, ?> paramsMap = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+        params = paramsMap.toString();
+
+        if ("POST".equals(reqMethod) || "DELETE".equals(reqMethod) || "UPDATE".equals(reqMethod)) {
             Object[] paramsArray = proceedingJoinPoint.getArgs();
             params = argsArrayToString(paramsArray);
-        } else {
-            Map<?, ?> paramsMap = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-            params = paramsMap.toString();
         }
 
         log.info(LogPrefix.PREFIX_REQ + "{} {}", reqMethod, reqUri);
@@ -62,13 +60,8 @@ public class ReqLogAspect {
         log.info(LogPrefix.PREFIX_REQ_BODY + "{}", params);
 
         Object res = proceedingJoinPoint.proceed();
-        Gson gson = new Gson();
-        String ab = gson.toJson(res);
-        if (ab.length() > 200){
-            ab = ab.substring(0,200);
-            ab += "...";
-        }
-        log.info(LogPrefix.PREFIX_RES + "{}", ab);
+        JSONObject resJson = new JSONObject(res);
+        log.info(LogPrefix.PREFIX_RES_OK + "{}", resJson.getString("msg"));
 
         return res;
     }

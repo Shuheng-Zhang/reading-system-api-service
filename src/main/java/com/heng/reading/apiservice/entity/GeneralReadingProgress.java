@@ -43,8 +43,8 @@ public class GeneralReadingProgress {
     private String progressLocationContent;
 
     /**
-     * 进度-创建时间
+     * 进度-更新时间
      */
-    @TableField(value = "progress_created_time")
-    private String progressCreatedTime;
+    @TableField(value = "progress_updated_time")
+    private String progressUpdatedTime;
 }

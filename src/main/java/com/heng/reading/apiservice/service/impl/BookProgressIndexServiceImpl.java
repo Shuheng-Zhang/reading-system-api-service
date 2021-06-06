@@ -5,15 +5,27 @@ import com.heng.reading.apiservice.comms.data.CommCodeMsg;
 import com.heng.reading.apiservice.comms.exception.BusinessException;
 import com.heng.reading.apiservice.comms.utils.StringUtil;
 import com.heng.reading.apiservice.comms.utils.UUIDUtil;
+import com.heng.reading.apiservice.dto.progress.BookProgressIndexDto;
 import com.heng.reading.apiservice.entity.BookProgressIndex;
 import com.heng.reading.apiservice.mapper.BookProgressIndexMapper;
 import com.heng.reading.apiservice.service.BookProgressIndexService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 /**
  * @author heng
  */
 @Service
 public class BookProgressIndexServiceImpl extends ServiceImpl<BookProgressIndexMapper, BookProgressIndex> implements BookProgressIndexService {
+
+    @Override
+    public List<BookProgressIndexDto> findRecentReadingProgressIndexByAccountId(String accountId) {
+        if (StringUtil.isNullOrEmpty(accountId)) {
+            throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_PARAMS_ERR);
+        }
+        return this.baseMapper.queryRecentReadingProgressIndex(accountId);
+    }
 
     @Override
     public void deleteByBookId(String bookId) throws BusinessException {
@@ -43,6 +55,7 @@ public class BookProgressIndexServiceImpl extends ServiceImpl<BookProgressIndexM
         index.setId(UUIDUtil.uuid());
         index.setBookId(bookId);
         index.setProgressId(progressId);
+        index.setUpdatedTime(StringUtil.getCurrentTime());
 
         return index;
     }

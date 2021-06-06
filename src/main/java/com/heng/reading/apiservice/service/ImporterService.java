@@ -14,7 +14,6 @@ public interface ImporterService {
      * 检查文件类型
      * @param mimeType 文件类型
      * @param files 待检查文件列表
-     * @exception com.heng.reading.apiservice.comms.exception.BusinessException
      */
     void checkFilesContentType(FileMimeType mimeType, MultipartFile[] files);
 
@@ -30,9 +29,8 @@ public interface ImporterService {
      * @param file 源文件
      * @param mimeType 文件类型
      * @param accountId 用户帐号ID
-     * @return 文件存储相对路径
-     * @exception IOException
+     * @return res[0]-文件存储相对路径, res[1]-源文件名称
      */
-    String transFile2Dest(MultipartFile file, FileMimeType mimeType, String accountId) throws IOException;
+    String[] transFile2Dest(MultipartFile file, FileMimeType mimeType, String accountId);
 
 }

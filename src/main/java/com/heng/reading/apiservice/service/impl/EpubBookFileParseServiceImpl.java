@@ -24,8 +24,16 @@ public class EpubBookFileParseServiceImpl implements EpubBookFileParseService {
     private String accountDataDirRoot;
 
     @Override
-    public Book loadEpub(String bookPath) throws IOException {
-        return EpubParseUtils.loadEpub(bookPath);
+    public Book loadEpub(String bookPath) {
+        Book book = null;
+
+        try {
+            book = EpubParseUtils.loadEpub(bookPath);
+        } catch (IOException e) {
+            throw new BusinessException(CommCodeMsg.CODE_SYS_ERR, CommCodeMsg.MSG_SYS_ERR);
+        }
+
+        return book;
     }
 
     @Override
@@ -53,11 +61,17 @@ public class EpubBookFileParseServiceImpl implements EpubBookFileParseService {
     }
 
     @Override
-    public String fetchBookCover(Book epubBook, String accountId) throws IOException {
+    public String fetchBookCover(Book epubBook, String accountId) {
 
         String coverStoredPath = accountDataDirRoot + "/" + accountId + "/covers/";
 
-        String coverFileName = EpubParseUtils.getBookCover(epubBook, coverStoredPath);
+        String coverFileName = null;
+        try {
+            coverFileName = EpubParseUtils.getBookCover(epubBook, coverStoredPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new BusinessException(CommCodeMsg.CODE_SYS_ERR, CommCodeMsg.MSG_SYS_ERR);
+        }
         if (coverFileName == null) {
             return null;
         }
@@ -65,11 +79,16 @@ public class EpubBookFileParseServiceImpl implements EpubBookFileParseService {
     }
 
     @Override
-    public void ePubUnzip(String epubFilePath, String destPath) throws ZipException, BusinessException {
+    public void ePubUnzip(String epubFilePath, String destPath) throws BusinessException {
         boolean fileExisted = FileUtils.checkFileExisted(epubFilePath);
         if (!fileExisted) {
             throw new BusinessException(CommCodeMsg.CODE_TERMINATE, CommCodeMsg.MSG_OBJ_NOT_FOUND);
         }
-        FileUtils.unzip(epubFilePath, destPath);
+
+        try {
+            FileUtils.unzip(epubFilePath, destPath);
+        } catch (ZipException e) {
+            throw new BusinessException(CommCodeMsg.CODE_SYS_ERR, CommCodeMsg.MSG_SYS_ERR);
+        }
     }
 }
